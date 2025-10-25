@@ -16,6 +16,7 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Provider
 
+
 class PopulateDatabaseCallback @Inject constructor(
     private val exerciseDaoProvider: Provider<MysDAO>,
     @ApplicationContext private val context: Context
