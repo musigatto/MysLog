@@ -55,7 +55,8 @@ class PopulateDatabaseCallback @Inject constructor(
     suspend fun populateFromAssets(lang: String) {
         Timber.i("populateFromAssets: iniciando para idioma $lang")
 
-        val json = loadJsonFromAssets("exercises_${lang}.json") ?: run {
+        val json = loadJsonFromAssets("exercises_en.json") ?: run {
+        //val json = loadJsonFromAssets("exercises_${lang}.json") ?: run {
             Timber.w("No se encontró JSON en assets para $lang")
             return
         }
