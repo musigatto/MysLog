@@ -207,6 +207,7 @@ class SessionViewModel @Inject constructor(
             }
 
             is SessionEvent.FinishSession -> {
+
                 finishSession()
                 viewModelScope.launch {
                     val exercises = exercises.first()

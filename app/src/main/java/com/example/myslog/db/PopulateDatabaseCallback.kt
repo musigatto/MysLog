@@ -16,6 +16,7 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Provider
 
+
 class PopulateDatabaseCallback @Inject constructor(
     private val exerciseDaoProvider: Provider<MysDAO>,
     @ApplicationContext private val context: Context
@@ -54,7 +55,8 @@ class PopulateDatabaseCallback @Inject constructor(
     suspend fun populateFromAssets(lang: String) {
         Timber.i("populateFromAssets: iniciando para idioma $lang")
 
-        val json = loadJsonFromAssets("exercises_${lang}.json") ?: run {
+        val json = loadJsonFromAssets("exercises_en.json") ?: run {
+        //val json = loadJsonFromAssets("exercises_${lang}.json") ?: run {
             Timber.w("No se encontró JSON en assets para $lang")
             return
         }
