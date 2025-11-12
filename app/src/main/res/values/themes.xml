@@ -3,7 +3,7 @@
     <!-- Tema para la SplashScreen -->
     <style name="Theme.MysLogApp.Splash" parent="Theme.SplashScreen">
         <!-- Tu icono para la splash -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_mys_log</item>
         <!-- Color de fondo -->
         <item name="windowSplashScreenBackground">#FFFFFF</item> <!-- blanco -->
         <!-- Duración mínima del splash (opcional) -->
@@ -16,3 +16,4 @@
     </style>
 
 </resources>
+
