@@ -5,7 +5,7 @@
         <!-- Tu icono para la splash -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_mys_log</item>
         <!-- Color de fondo -->
-        <item name="windowSplashScreenBackground">#FFFFFF</item> <!-- blanco -->
+        <item name="windowSplashScreenBackground">#000000</item> <!-- blanco -->
         <!-- Duración mínima del splash (opcional) -->
         <item name="postSplashScreenTheme">@style/Theme.MysLogApp</item>
     </style>
