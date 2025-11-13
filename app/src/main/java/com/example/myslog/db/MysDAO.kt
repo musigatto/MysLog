@@ -76,7 +76,7 @@ interface MysDAO {
     @Delete
     suspend fun removeSessionExercise(sessionExercise: SessionExercise)
 
-    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSet(set: GymSet): Long
 
     @Update

@@ -86,7 +86,7 @@ class ExerciseViewModel @Inject constructor(
             .filter { it.isNotBlank() }
             .map { normalize(it) }
 
-        val baseList = if (selActive) selectedFiltered else exercises
+        val baseList = if (selActive) selected else exercises
 
         baseList.filter { exercise ->
             val muscleGroups = (exercise.primaryMuscles).map { it.lowercase() }

@@ -1,11 +1,13 @@
 package com.example.myslog.ui.session
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myslog.core.Routes
 import com.example.myslog.db.entities.Session
 import com.example.myslog.db.repository.MysRepository
+import com.example.myslog.db.repository.MysRepositoryImpl
 import com.example.myslog.ui.ExerciseWrapper
 import com.example.myslog.ui.SessionWrapper
 import com.example.myslog.ui.session.actions.OpenInFinish
@@ -13,6 +15,7 @@ import com.example.myslog.utils.Event
 import com.example.myslog.utils.UiEvent
 import com.example.myslog.utils.sortedListOfMuscleGroups
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SessionViewModel @Inject constructor(
     private val repo: MysRepository,
+    @ApplicationContext private val context: Context,
+
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -207,11 +212,10 @@ class SessionViewModel @Inject constructor(
             }
 
             is SessionEvent.FinishSession -> {
-
                 finishSession()
                 viewModelScope.launch {
                     val exercises = exercises.first()
-                    val result = OpenInFinish().calculateAndFetchFact(exercises)
+                    val result = OpenInFinish(context).calculateAndCountHardSets(exercises)
                     sendUiEvent(UiEvent.ShowFinishResult(result))
                 }
             }

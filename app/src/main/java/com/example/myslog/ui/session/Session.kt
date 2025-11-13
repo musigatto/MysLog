@@ -158,15 +158,8 @@ fun SessionScreen(
     }
 
     if (deleteSetDialog.value != null) {
-        DeletionAlertDialog(
-            onDismiss = { deleteSetDialog.value = null },
-            onDelete = {
-                deleteSetDialog.value?.let { viewModel.onEvent(SessionEvent.SetDeleted(it)) }
-                deleteSetDialog.value = null
-            },
-            title = { Text("Delete Set?") },
-            text = { Text("Are you sure you want to delete this set? This action can not be undone.") }
-        )
+        deleteSetDialog.value?.let { viewModel.onEvent(SessionEvent.SetDeleted(it)) }
+        deleteSetDialog.value = null
     }
 
     // ---- Popup de resultados al finalizar ----
@@ -182,7 +175,7 @@ fun SessionScreen(
                     Spacer(Modifier.height(8.dp))
                     Text("Total volumen: ${finishResult.value!!.totalVolume}")
                     Spacer(Modifier.height(8.dp))
-                    Text(finishResult.value!!.funFact)
+                    Text("Has completado ${finishResult.value!!.weeklyHardSets} hard sets esta semana 💪")
                 }
             },
             confirmButton = {
