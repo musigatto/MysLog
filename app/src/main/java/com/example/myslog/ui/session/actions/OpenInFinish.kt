@@ -1,24 +1,66 @@
 package com.example.myslog.ui.session.actions
 
+import android.content.Context
+import com.example.myslog.core.TipoSet
 import com.example.myslog.ui.ExerciseWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
-data class ExerciseVolume(val exerciseName: String, val volume: Int)
-data class FinishResult(
-    val exerciseVolumes: List<ExerciseVolume>,
-    val totalVolume: Int,
-    val funFact: String
+data class ExerciseSummary(
+    val exerciseName: String,
+    val totalSets: Int,
+    val hardSets: Int,
+    val weeklyHardSets: Int // sets al fallo de este ejercicio en la semana
 )
 
-class OpenInFinish {
+data class FinishResult(
+    val exerciseSummaries: List<ExerciseSummary>,
+    val sessionHardSets: Int // total sets al fallo de la sesión
+)
 
-    suspend fun calculateAndFetchFact(exercises: List<ExerciseWrapper>): FinishResult {
-        val volumes = exercises.map { ex ->
-            val vol = ex.sets.sumOf { (it.reps ?: 0) * (it.weight ?: 0f).toInt() }
-            ExerciseVolume(ex.exercise.name, vol)
+class OpenInFinish(private val context: Context) {
+
+    private val prefs = context.getSharedPreferences("weekly_stats", Context.MODE_PRIVATE)
+
+    suspend fun calculateAndCountHardSets(exercises: List<ExerciseWrapper>): FinishResult = withContext(Dispatchers.IO) {
+        val today = LocalDate.now()
+        val summaries = exercises.map { ex ->
+            val totalSets = ex.sets.size
+            val hardSets = ex.sets.count { it.tipoSet == TipoSet.HARD }
+
+            // Leer contador semanal del SharedPreferences por ejercicio
+            val key = "weekly_hard_${ex.exercise.id}"
+            val lastReset = prefs.getString("${key}_last_reset", null)
+            val storedCount = prefs.getInt(key, 0)
+
+            val shouldReset = lastReset == null || LocalDate.parse(lastReset).dayOfWeek.value > today.dayOfWeek.value
+
+            val newWeekly = if (shouldReset) {
+                prefs.edit()
+                    .putInt(key, hardSets)
+                    .putString("${key}_last_reset", today.toString())
+                    .apply()
+                hardSets
+            } else {
+                val updated = storedCount + hardSets
+                prefs.edit()
+                    .putInt(key, updated)
+                    .putString("${key}_last_reset", today.toString())
+                    .apply()
+                updated
+            }
+
+            ExerciseSummary(
+                exerciseName = ex.exercise.name,
+                totalSets = totalSets,
+                hardSets = hardSets,
+                weeklyHardSets = newWeekly
+            )
         }
-        val total = volumes.sumOf { it.volume }
 
+        val sessionHardSets = summaries.sumOf { it.hardSets }
 
-        return FinishResult(volumes, total, "")
+        FinishResult(summaries, sessionHardSets)
     }
 }

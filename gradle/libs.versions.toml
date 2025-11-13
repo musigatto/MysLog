@@ -20,7 +20,7 @@ materialIconsExtended = "1.7.8"
 roomVersion = "2.7.2"
 hiltNavigationCompose = "1.2.0"
 timber = "5.0.1"
-coreSplashScreen = "1.0.1"
+    coreSplashScreen = "1.0.1"
 datastoreCore = "1.1.7"
 
 [libraries]
