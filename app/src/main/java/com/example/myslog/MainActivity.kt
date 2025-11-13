@@ -30,6 +30,8 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
+//TODO: capitalizar json y traducir con googleSheets
+// Anotación para habilitar la inyección de dependencias con Hilt en esta actividad
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
