@@ -26,7 +26,8 @@ fun HomeBottomBar(
                 FloatingActionButton(
                     onClick = { onEvent(HomeEvent.CheckUpdates) },
                     modifier = Modifier.size(48.dp),
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
                     Icon(Icons.Filled.Refresh, contentDescription = "Update")
                 }
@@ -34,7 +35,8 @@ fun HomeBottomBar(
                 FloatingActionButton(
                     onClick = { onEvent(HomeEvent.OpenSettings) },
                     modifier = Modifier.size(48.dp),
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
                     Icon(Icons.Filled.Settings, contentDescription = "Settings")
                 }
@@ -43,7 +45,8 @@ fun HomeBottomBar(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onEvent(HomeEvent.NewSession) },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Agregar")
             }

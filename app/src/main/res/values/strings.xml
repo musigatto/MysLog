@@ -42,5 +42,21 @@
     <string name="tipo_normal">Normal</string>
     <string name="tipo_hard">Hard</string>
     <string name="tipo_drop">Drop</string>
+
+    <string name="accept">Accept\n</string>
+    <string name="close">Close</string>
+
+    <string name="terms_title">Contributor Covenant Code of Conduct</string>
+    <string name="terms_content"><![CDATA[
+<b>Our Pledge</b>
+We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone.
+
+<b>Our Standards</b>
+• Demonstrating empathy and kindness toward other people
+• Being respectful of differing opinions, viewpoints, and experiences
+• Giving and gracefully accepting constructive feedback
+• Accepting responsibility and apologizing when needed
+]]></string>
 </resources>
+
 

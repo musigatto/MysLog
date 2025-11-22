@@ -24,14 +24,13 @@ import com.example.compose.AppTheme
 import com.example.myslog.db.MysDAO
 import com.example.myslog.ui.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
-//TODO: capitalizar json y traducir con googleSheets
-// Anotación para habilitar la inyección de dependencias con Hilt en esta actividad
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -69,21 +68,19 @@ class MainActivity : ComponentActivity() {
                 // Flag si ya aceptó los términos
                 var showDialog by remember { mutableStateOf(!prefs.getBoolean("terms_accepted", false)) }
 
-                // Texto plano cargado desde assets
-                var termsText by remember { mutableStateOf("Cargando términos...") }
+                // Leer Markdown desde res/raw/terms.md
+                var terms by remember { mutableStateOf("Cargando términos...") }
 
                 LaunchedEffect(Unit) {
-                    termsText = withContext(Dispatchers.IO) {
-                        context.assets.open("terms.txt").bufferedReader().use { it.readText() }
+                    terms = withContext(Dispatchers.IO) {
+                        context.resources.openRawResource(R.raw.terms)
+                            .bufferedReader().use { it.readText() }
                     }
                 }
 
                 if (showDialog) {
                     AlertDialog(
-                        onDismissRequest = {
-                            // Forzamos que la app se cierre si intenta salir del diálogo
-                            finish()
-                        },
+                        onDismissRequest = { finish() },
                         title = { Text("Términos y condiciones") },
                         text = {
                             Column(
@@ -92,7 +89,9 @@ class MainActivity : ComponentActivity() {
                                     .verticalScroll(rememberScrollState())
                                     .padding(8.dp)
                             ) {
-                                Text(text = termsText)
+                                MarkdownText(
+                                    markdown = terms
+                                )
                             }
                         },
                         confirmButton = {
@@ -104,9 +103,7 @@ class MainActivity : ComponentActivity() {
                             }
                         },
                         dismissButton = {
-                            TextButton(onClick = {
-                                finish() // Cierra la app si no acepta
-                            }) {
+                            TextButton(onClick = { finish() }) {
                                 Text("Cerrar")
                             }
                         }

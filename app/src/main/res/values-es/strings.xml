@@ -43,4 +43,5 @@
     <string name="tipo_normal">Normal</string>
     <string name="tipo_hard">Difícil</string>
     <string name="tipo_drop">Drop</string>
+
 </resources>
