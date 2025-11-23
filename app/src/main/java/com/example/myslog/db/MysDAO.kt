@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.myslog.core.Entities
 import com.example.myslog.core.Entities.EQUIPMENT
 import com.example.myslog.core.Entities.EXERCISE
 import com.example.myslog.core.Entities.GYMSET
@@ -133,5 +134,45 @@ interface MysDAO {
     fun getExercisesForWorkoutDirect(workoutId: Long): Flow<List<Exercise>>
     @Delete
     suspend fun deleteWorkoutExercise(workoutExercise: WorkoutExercise)
+
+    // Consulta para obtener estadísticas resumidas por fecha de un ejercicio específico
+    @Query("""
+    SELECT 
+        date(s.start) as date,
+        MAX(gs.weight) as maxWeight,
+        SUM(gs.weight * gs.reps) as totalVolume,
+        COUNT(gs.setId) as totalSets
+    FROM ${Entities.SESSIONEXERCISE} se
+    JOIN ${Entities.SESSIONWORKOUT} s ON se.parentSessionId = s.sessionId
+    JOIN ${Entities.GYMSET} gs ON se.sessionExerciseId = gs.parentSessionExerciseId
+    WHERE se.parentExerciseId = :exerciseId 
+    AND gs.weight IS NOT NULL 
+    AND gs.reps IS NOT NULL
+    AND gs.weight > 0
+    GROUP BY date(s.start)
+    ORDER BY s.start ASC
+""")
+    fun getExerciseStats(exerciseId: String): Flow<List<ExerciseStats>>
+
+    // Consulta alternativa para obtener el historial completo con todos los datos
+    @Query("""
+    SELECT 
+        se.sessionExerciseId,
+        se.parentSessionId,
+        se.parentExerciseId,
+        se.comment,
+        s.start as sessionStart,
+        s.end as sessionEnd,
+        gs.setId,
+        gs.reps,
+        gs.weight,
+        gs.tipoSet
+    FROM ${Entities.SESSIONEXERCISE} se
+    JOIN ${Entities.SESSIONWORKOUT} s ON se.parentSessionId = s.sessionId
+    JOIN ${Entities.GYMSET} gs ON se.sessionExerciseId = gs.parentSessionExerciseId
+    WHERE se.parentExerciseId = :exerciseId
+    ORDER BY s.start ASC, gs.setId ASC
+""")
+    fun getExerciseHistory(exerciseId: String): Flow<List<ExerciseHistory>>
 
 }

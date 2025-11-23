@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.example.myslog.db.entities.ExerciseStats
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
@@ -224,25 +225,23 @@ class ExerciseViewModel @Inject constructor(
         }
 
 
+
+    // En ExerciseViewModel.kt - método openStats MEJORADO
     private fun openStats(exercise: Exercise) {
         viewModelScope.launch {
             val stats = withContext(Dispatchers.IO) {
-                val sessionExercises = repo.getAllSessionExercises().first()
-                    .filter { it.exercise.id == exercise.id }
-
-                sessionExercises.flatMap { se ->
-                    repo.getSetsForExercise(se.sessionExercise.sessionExerciseId).first()
-                }.map { set ->
-                    val sessionExercise = repo.getSessionExerciseById(set.parentSessionExerciseId)
-                    val sessionStart =
-                        repo.getSessionById(sessionExercise.parentSessionId).start.toLocalDate()
-                    StatEntry(date = sessionStart, pesoMax = set.weight ?: 0f)
-                }.sortedBy { it.date }
+                repo.getExerciseStats(exercise.id).first().map { exerciseStats ->
+                    StatEntry(
+                        date = exerciseStats.date,
+                        pesoMax = exerciseStats.maxWeight,
+                        volumeTotal = exerciseStats.totalVolume,
+                        totalSets = exerciseStats.totalSets
+                    )
+                }
             }
-            _uiEvent.send(UiEvent.ShowStatsPopup(stats))
+            _uiEvent.send(UiEvent.ShowStatsPopup(stats, exercise.name)) // ← Con nombre
         }
     }
-
     private fun openGuide(exercise: Exercise) {
         sendUiEvent(UiEvent.ShowImagePopup(exercise.id))
     }

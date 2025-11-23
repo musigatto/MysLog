@@ -52,99 +52,102 @@ fun ExercisePicker(
 
     var showPopupExerciseId by remember { mutableStateOf<String?>(null) }
     var statsPopupSets by remember { mutableStateOf<List<StatEntry>?>(null) }
-
+    var statsPopupData by remember {
+        mutableStateOf<Pair<List<StatEntry>, String>?>(null)
+    }
     // Popups
-    statsPopupSets?.let { stats ->
+// En el popup:
+    statsPopupData?.let { (stats, exerciseName) ->
         StatsPopup(
             stats = stats,
-            onDismiss = { statsPopupSets = null }
+            exerciseName = exerciseName, // ← Pasar el nombre del ejercicio
+            onDismiss = { statsPopupData = null }
         )
     }
+        LaunchedEffect(true) {
+            viewModel.uiEvent.collect { event ->
+                when (event) {
+                    is UiEvent.ShowImagePopup -> {
+                        showPopupExerciseId = event.exerciseId
+                        keyboardController?.hide()
+                    }
 
-    // Observamos eventos de UI
-    LaunchedEffect(true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.ShowImagePopup -> {
-                    showPopupExerciseId = event.exerciseId
-                    keyboardController?.hide()
+                    is UiEvent.ShowStatsPopup -> {
+                        statsPopupData = Pair(event.stats, event.exerciseName)
+                        keyboardController?.hide()
+                    }
+
+                    else -> Unit
                 }
+            }
+        }
 
-                is UiEvent.ShowStatsPopup -> {
-                    statsPopupSets = event.stats
+        // Contenido principal
+        ExercisePickerPreview(
+            exercises = exercises,
+            selectedExercises = selectedExercises,
+            onAddClick = {
+                viewModel.onEvent(ExerciseEvent.AddExercises)
+                navController.popBackStack()
+            },
+            onExerciseClick = { exercise ->
+                viewModel.onEvent(ExerciseEvent.ExerciseSelected(exercise))
+            },
+            onSearchChanged = { text -> viewModel.onEvent(ExerciseEvent.SearchChanged(text)) },
+            searchText = searchText,
+            onEvent = viewModel::onEvent,
+            onFilterSelectedClick = { viewModel.onEvent(ExerciseEvent.FilterSelected) },
+            onFilterUsedClick = { viewModel.onEvent(ExerciseEvent.FilterUsed) },
+            onMuscleFilterClick = {
+                equipmentBottomsheet = false
+                coroutineScope.launch {
                     keyboardController?.hide()
+                    sheetState.show()
                 }
-
-                else -> Unit
+            },
+            onEquipmentFilterClick = {
+                equipmentBottomsheet = true
+                coroutineScope.launch {
+                    keyboardController?.hide()
+                    sheetState.show()
+                }
+            },
+            filterSelected = filterSelected,
+            filterUsed = filterUsed,
+            muscleFilterActive = muscleFilter.isNotEmpty(),
+            equipmentFilterActive = equipmentFilter.isNotEmpty(),
+            workoutFilter = workoutFilter,
+            allWorkouts = allWorkouts
+        )
+        if (sheetState.isVisible) {
+            ModalBottomSheet(
+                onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
+                sheetState = sheetState
+            ) {
+                if (equipmentBottomsheet) {
+                    EquipmentSheet(
+                        selectedEquipment = equipmentFilter,
+                        allEquipment = allEquipment,
+                        onEvent = viewModel::onEvent
+                    )
+                } else {
+                    MuscleSheet(
+                        selectedMusclegroups = muscleFilter,
+                        allMuscleGroups = allMusclesList,
+                        onEvent = viewModel::onEvent
+                    )
+                }
             }
         }
-    }
-
-    // Contenido principal
-    ExercisePickerPreview(
-        exercises = exercises,
-        selectedExercises = selectedExercises,
-        onAddClick = {
-            viewModel.onEvent(ExerciseEvent.AddExercises)
-            navController.popBackStack()
-        },
-        onExerciseClick = { exercise ->
-            viewModel.onEvent(ExerciseEvent.ExerciseSelected(exercise))
-        },
-        onSearchChanged = { text -> viewModel.onEvent(ExerciseEvent.SearchChanged(text)) },
-        searchText = searchText,
-        onEvent = viewModel::onEvent,
-        onFilterSelectedClick = { viewModel.onEvent(ExerciseEvent.FilterSelected) },
-        onFilterUsedClick = { viewModel.onEvent(ExerciseEvent.FilterUsed) },
-        onMuscleFilterClick = {
-            equipmentBottomsheet = false
-            coroutineScope.launch {
-                keyboardController?.hide()
-                sheetState.show()
-            }
-        },
-        onEquipmentFilterClick = {
-            equipmentBottomsheet = true
-            coroutineScope.launch {
-                keyboardController?.hide()
-                sheetState.show()
-            }
-        },
-        filterSelected = filterSelected,
-        filterUsed = filterUsed,
-        muscleFilterActive = muscleFilter.isNotEmpty(),
-        equipmentFilterActive = equipmentFilter.isNotEmpty(),
-        workoutFilter = workoutFilter,
-        allWorkouts = allWorkouts
-    )
-    if (sheetState.isVisible) {
-        ModalBottomSheet(
-            onDismissRequest = { coroutineScope.launch { sheetState.hide() } },
-            sheetState = sheetState
-        ) {
-            if (equipmentBottomsheet) {
-                EquipmentSheet(
-                    selectedEquipment = equipmentFilter,
-                    allEquipment = allEquipment,
-                    onEvent = viewModel::onEvent
-                )
-            } else {
-                MuscleSheet(
-                    selectedMusclegroups = muscleFilter,
-                    allMuscleGroups = allMusclesList,
-                    onEvent = viewModel::onEvent
+        // Popup de imagen del ejercicio
+        if (showPopupExerciseId != null) {
+            val exercise: Exercise? = exercises.find { it.id == showPopupExerciseId }
+            if (exercise != null) {
+                ImagePopup(
+                    exercise = exercise,
+                    onDismiss = { showPopupExerciseId = null }
                 )
             }
         }
     }
-    // Popup de imagen del ejercicio
-    if (showPopupExerciseId != null) {
-        val exercise: Exercise? = exercises.find { it.id == showPopupExerciseId }
-        if (exercise != null) {
-            ImagePopup(
-                exercise = exercise,
-                onDismiss = { showPopupExerciseId = null }
-            )
-        }
-    }
-}
+

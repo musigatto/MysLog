@@ -1,6 +1,8 @@
 package com.example.myslog.db.repository
 
 import com.example.myslog.db.entities.Exercise
+import com.example.myslog.db.entities.ExerciseHistory
+import com.example.myslog.db.entities.ExerciseStats
 import com.example.myslog.db.entities.GymSet
 import com.example.myslog.db.entities.Session
 import com.example.myslog.db.entities.SessionExercise
@@ -8,6 +10,7 @@ import com.example.myslog.db.entities.SessionExerciseWithExercise
 import com.example.myslog.db.entities.Workout
 import com.example.myslog.db.entities.WorkoutExercise
 import com.example.myslog.ui.DatabaseModel
+
 import kotlinx.coroutines.flow.Flow
 
 interface MysRepository {
@@ -50,4 +53,7 @@ interface MysRepository {
     fun getExercisesForWorkoutExercises(workoutId: Long): Flow<List<Exercise>>
     suspend fun deleteWorkoutExercise(workoutExercise: WorkoutExercise)
 
+    // En MysRepository.kt - AGREGAR:
+    fun getExerciseStats(exerciseId: String): Flow<List<ExerciseStats>>
+    fun getExerciseHistory(exerciseId: String): Flow<List<ExerciseHistory>>
 }
