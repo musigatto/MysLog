@@ -91,6 +91,11 @@
     <string name="search">Search</string>
     <string name="add_num">ADD %1$d</string>
     <string name="deselect_all">Deselect All</string>
+    <string name="continue_">"Continue"</string>
+    <string name="welcome">Welcome, %1$s!</string>
+    <string name="ready">Ready for your next workout?</string>
+    <string name="ask_name">To personalize your experience, please introduce your name</string>
+    <string name="name_placeholder">Your name</string>
 </resources>
 
 

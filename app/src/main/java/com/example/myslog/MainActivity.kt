@@ -66,8 +66,16 @@ class MainActivity : ComponentActivity() {
                 val context = LocalContext.current
                 val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-                // Flag si ya aceptó los términos
-                var showDialog by remember { mutableStateOf(!prefs.getBoolean("terms_accepted", false)) }
+                // Estados para el flujo
+                var showTermsDialog by remember {
+                    mutableStateOf(!prefs.getBoolean("terms_accepted", false))
+                }
+                var showNameDialog by remember {
+                    mutableStateOf(
+                        prefs.getBoolean("terms_accepted", false) &&
+                                prefs.getString("user_name", "").isNullOrEmpty()
+                    )
+                }
 
                 // Leer Markdown desde res/raw/terms.md
                 var terms by remember { mutableStateOf("Loading...") }
@@ -79,7 +87,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                if (showDialog) {
+                // Flujo: Términos -> Nombre -> Home
+                if (showTermsDialog) {
                     AlertDialog(
                         onDismissRequest = { finish() },
                         title = { Text(stringResource(R.string.code_conduct)) },
@@ -90,15 +99,14 @@ class MainActivity : ComponentActivity() {
                                     .verticalScroll(rememberScrollState())
                                     .padding(8.dp)
                             ) {
-                                MarkdownText(
-                                    markdown = terms
-                                )
+                                MarkdownText(markdown = terms)
                             }
                         },
                         confirmButton = {
                             TextButton(onClick = {
                                 prefs.edit().putBoolean("terms_accepted", true).apply()
-                                showDialog = false
+                                showTermsDialog = false
+                                showNameDialog = true
                             }) {
                                 Text(stringResource(R.string.accept))
                             }
@@ -109,10 +117,47 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     )
+                } else if (showNameDialog) {
+                    var name by remember { mutableStateOf("") }
+
+                    AlertDialog(
+                        onDismissRequest = { /* No permitir cerrar sin ingresar nombre */ },
+                        title = { Text("¡Bienvenido!") },
+                        text = {
+                            Column {
+                                Text(stringResource(R.string.ask_name))
+                                OutlinedTextField(
+                                    value = name,
+                                    onValueChange = { name = it },
+                                    label = { Text(stringResource(R.string.name_placeholder)) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    singleLine = true
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    if (name.isNotBlank()) {
+                                        prefs.edit().putString("user_name", name).apply()
+                                        showNameDialog = false
+                                    }
+                                },
+                                enabled = name.isNotBlank()
+                            ) {
+                                Text(stringResource(R.string.continue_))
+                            }
+                        }
+                    )
                 } else {
                     val navController = rememberNavController()
+                    val userName = prefs.getString("user_name", "") ?: ""
+
                     Surface {
-                        AppNavHost(navController = navController)
+                        AppNavHost(
+                            navController = navController,
+                            userName = userName
+                        )
                     }
                 }
             }

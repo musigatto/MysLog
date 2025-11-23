@@ -89,5 +89,10 @@
     <string name="search">Buscar</string>
     <string name="add_num">AÑADIR %1$d</string>
     <string name="deselect_all">Quitar selección</string>
+    <string name="continue_">Continuar</string>
+    <string name="welcome">¡Hola, %1$s!</string>
+    <string name="ready">¿Listo para tu próxima sesión?</string>
+    <string name="ask_name">Para personalizar tu experiencia, ingresa tu nombre:</string>
+    <string name="name_placeholder">Tu nombre</string>
 
 </resources>
