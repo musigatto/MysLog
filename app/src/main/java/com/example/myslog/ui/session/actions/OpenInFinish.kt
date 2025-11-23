@@ -11,12 +11,12 @@ data class ExerciseSummary(
     val exerciseName: String,
     val totalSets: Int,
     val hardSets: Int,
-    val weeklyHardSets: Int // sets al fallo de este ejercicio en la semana
+    val weeklyHardSets: Int
 )
 
 data class FinishResult(
     val exerciseSummaries: List<ExerciseSummary>,
-    val sessionHardSets: Int // total sets al fallo de la sesión
+    val sessionHardSets: Int
 )
 
 class OpenInFinish(private val context: Context) {
@@ -29,7 +29,7 @@ class OpenInFinish(private val context: Context) {
             val totalSets = ex.sets.size
             val hardSets = ex.sets.count { it.tipoSet == TipoSet.HARD }
 
-            // Leer contador semanal del SharedPreferences por ejercicio
+
             val key = "weekly_hard_${ex.exercise.id}"
             val lastReset = prefs.getString("${key}_last_reset", null)
             val storedCount = prefs.getInt(key, 0)

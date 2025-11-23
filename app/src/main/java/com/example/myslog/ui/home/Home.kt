@@ -24,14 +24,15 @@
     import androidx.compose.runtime.remember
     import androidx.compose.runtime.rememberCoroutineScope
     import androidx.compose.ui.Modifier
+    import androidx.compose.ui.res.stringResource
     import androidx.compose.ui.unit.dp
     import androidx.hilt.navigation.compose.hiltViewModel
+    import com.example.myslog.R
     import com.example.myslog.ui.home.components.HomeBottomBar
     import com.example.myslog.ui.home.components.SessionCard
     import com.example.myslog.utils.UiEvent
     import kotlinx.coroutines.Dispatchers
     import kotlinx.coroutines.launch
-    import kotlinx.coroutines.withContext
     import timber.log.Timber
     import java.util.Locale
 
@@ -49,8 +50,8 @@
         if (sessionToDelete != null) {
             AlertDialog(
                 onDismissRequest = { viewModel.sessionToDelete = null },
-                title = { Text("Eliminar sesión") },
-                text = { Text("¿Estás seguro de que quieres eliminar esta sesión?") },
+                title = { Text(stringResource(R.string.delete_session)) },
+                text = { Text(stringResource(R.string.sure_about_that)) },
                 confirmButton = {
                     TextButton(onClick = {
                         viewModel.onEvent(
@@ -58,11 +59,11 @@
                                 sessionToDelete.session.sessionId
                             )
                         )
-                    }) { Text("Eliminar") }
+                    }) { Text(stringResource(R.string.delete)) }
                 },
                 dismissButton = {
                     TextButton(onClick = { viewModel.sessionToDelete = null }) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             )
@@ -82,7 +83,7 @@
                     when (event) {
                         HomeEvent.CheckUpdates -> {
                             coroutineScope.launch(Dispatchers.IO) {
-                                val lang = Locale.getDefault().language // Detecta idioma del sistema
+                                val lang = Locale.getDefault().language
                                 Timber.d("Idioma actual del sistema: $lang")
 
 
@@ -96,8 +97,8 @@
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = topPadding), // solo padding superior
-                contentPadding = PaddingValues(bottom = 0.dp) // ignorar padding inferior
+                    .padding(top = topPadding),
+                contentPadding = PaddingValues(bottom = 0.dp)
             ) {
                 items(sessions, key = { it.session.sessionId }) { sessionWrapper ->
                     SessionCard(
@@ -113,9 +114,9 @@
                     )
 
                 }
-                // Spacer para que el último elemento quede scrollable sobre el BottomAppBar
+
                 item {
-                    Spacer(modifier = Modifier.height(80.dp)) // Ajusta altura según tu BottomBar
+                    Spacer(modifier = Modifier.height(80.dp))
                 }
             }
         }

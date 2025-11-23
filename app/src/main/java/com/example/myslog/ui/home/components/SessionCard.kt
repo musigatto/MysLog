@@ -46,7 +46,6 @@ fun SessionCard(
                 onClick = { onClick() },
                 onLongClick = { onLongClick() }
             ),
-                // Estilo de la tarjeta
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -60,12 +59,10 @@ fun SessionCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Fecha a la izquierda
             SessionDate(
                 session = sessionWrapper.session,
                 modifier = Modifier.padding(end = 16.dp).align(Alignment.CenterVertically)
             )
-            // Info principal
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center

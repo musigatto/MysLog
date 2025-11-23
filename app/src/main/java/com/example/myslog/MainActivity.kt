@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -69,7 +70,7 @@ class MainActivity : ComponentActivity() {
                 var showDialog by remember { mutableStateOf(!prefs.getBoolean("terms_accepted", false)) }
 
                 // Leer Markdown desde res/raw/terms.md
-                var terms by remember { mutableStateOf("Cargando términos...") }
+                var terms by remember { mutableStateOf("Loading...") }
 
                 LaunchedEffect(Unit) {
                     terms = withContext(Dispatchers.IO) {
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
                 if (showDialog) {
                     AlertDialog(
                         onDismissRequest = { finish() },
-                        title = { Text("Términos y condiciones") },
+                        title = { Text(stringResource(R.string.code_conduct)) },
                         text = {
                             Column(
                                 Modifier
@@ -99,12 +100,12 @@ class MainActivity : ComponentActivity() {
                                 prefs.edit().putBoolean("terms_accepted", true).apply()
                                 showDialog = false
                             }) {
-                                Text("Aceptar")
+                                Text(stringResource(R.string.accept))
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = { finish() }) {
-                                Text("Cerrar")
+                                Text(stringResource(R.string.cancel))
                             }
                         }
                     )

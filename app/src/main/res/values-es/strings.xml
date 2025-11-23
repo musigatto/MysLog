@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MysLog</string>
 
     <!-- equipment -->
     <string name="equipment_atlas_stone">Piedra Atlas</string>
@@ -9,7 +8,7 @@
     <string name="equipment_broom_stick">Escoba</string>
     <string name="equipment_cable">Cable</string>
     <string name="equipment_dumbbells">Mancuernas</string>
-    <string name="equipment_kettlebell">Kettlebell</string>
+    <string name="equipment_kettlebell">Pesa rusa</string>
     <string name="equipment_lever">Palanca</string>
     <string name="equipment_machine">Máquina</string>
     <string name="equipment_medicine_ball">Balón medicinal</string>
@@ -23,7 +22,7 @@
     <string name="equipment_weight">Peso</string>
 
     <!-- muscle groups -->
-    <string name="muscle_core">Core</string>
+    <string name="muscle_core">Abdomen</string>
     <string name="muscle_hips">Caderas</string>
     <string name="muscle_calves">Pantorrillas</string>
     <string name="muscle_glutes">Glúteos</string>
@@ -42,6 +41,52 @@
     <string name="tipo_easy">Fácil</string>
     <string name="tipo_normal">Normal</string>
     <string name="tipo_hard">Difícil</string>
-    <string name="tipo_drop">Drop</string>
+    <string name="tipo_drop">Dropset</string>
+    <string name="sure_about_that">¿Estás seguro de querer eliminar esta sesión?</string>
+    <string name="accept">Aceptar</string>
+    <string name="close">Cerrar</string>
+    <string name="filter_by_equipment">Filtrar por equipamiento</string>
+    <string name="update">Actualizar</string>
+    <string name="settings">Ajustes</string>
+    <string name="add">Añadir</string>
+    <string name="delete_session">Borrar sesión</string>
+    <string name="cancel">Cancelar</string>
+    <string name="copy_last_set">Copiar último set</string>
+    <string name="stats">Estadísticas</string>
+    <string name="delete">Eliminar</string>
+    <string name="open_exercise_guide">Abrir guia para el ejercicio</string>
+    <string name="open_exercise_statistics">Abrir estadísticas del ejercicio</string>
+    <string name="timer">Temporizador</string>
+    <string name="add_new_set">Añadir un nuevo set</string>
+    <string name="add_exercise">Añadir ejercicio</string>
+    <string name="decrease_time">Disminuir tiempo</string>
+    <string name="increase_time">Incrementar tiempo</string>
+    <string name="reset_timer">Restaurar temporizador</string>
+    <string name="toggle_timer">Activar/desactivar temporizador</string>
+    <string name="delete_selected_ex">¿Eliminar ejercicio seleccionado?</string>
+    <string name="sure_about_ex_del">¿Seguro que deseas eliminar el ejercicio seleccionado?</string>
+    <string name="delete_ses">¿Eliminar sesión?</string>
+    <string name="sure_bout_sess_del">¿Seguro que deseas eliminar esta sesión y todo su contenido?</string>
+    <string name="finished_sess">Sesión terminada 🎉</string>
+    <string name="total_sets">🔥 En total: %1$d sets al fallo en esta sesión.</string>
+    <string name="this_week">%1$s: %2$d series, %3$d al fallo (📅 %4$d esta semana)</string>
+    <string name="workout_timer_alerts">Alertas Myslog</string>
+    <string name="keep_screen">Mantener pantalla «Sesión» encendida</string>
+    <string name="code_conduct">Código de conducta</string>
+    <string name="export_database">Exportar base de datos</string>
+    <string name="import_database">Importar base de datos</string>
+    <string name="delete_database">Borrar base de datos</string>
+    <string name="workout_timer">Temporizador</string>
+    <string name="finish">Finalizar</string>
+    <string name="no_data">No hay datos</string>
+    <string name="new_workout">Nuevo entrenamiento</string>
+    <string name="add_workout">Añadir entrenamiento</string>
+    <string name="delete_workout">Borrar entrenamiento</string>
+    <string name="selected">Seleccionados</string>
+    <string name="used">Usado</string>
+    <string name="ongoing">en curso</string>
+    <string name="filter_by_body_part">Filtrar por músculos</string>
+    <string name="search">Buscar</string>
+    <string name="add_num">AÑADIR %1$d</string>
 
 </resources>

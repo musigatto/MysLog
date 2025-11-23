@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -147,7 +146,6 @@ class ExerciseViewModel @Inject constructor(
 
                     _selectedExercises.value = exercisesToSelect
 
-                    // Activar filtro Selected sin recomponer toda la lista original
                     _filterSelected.value = true
                     _filteredExercisesForSelected.value = exercisesToSelect
                 }
@@ -171,13 +169,12 @@ class ExerciseViewModel @Inject constructor(
 
             is ExerciseEvent.DeleteWorkout -> {
                 viewModelScope.launch {
-                    // Borrar todos los ejercicios asociados
+
                     val workoutExercises = repo.getExercisesForWorkout(event.workoutId).first()
                     workoutExercises.forEach { we ->
                         repo.deleteWorkoutExercise(we)
                     }
 
-                    // Borrar el workout
                     repo.deleteWorkoutById(event.workoutId)
                 }
             }

@@ -9,8 +9,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.ui.home.HomeEvent
 import com.example.myslog.utils.Event
 
@@ -29,7 +31,7 @@ fun HomeBottomBar(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
-                    Icon(Icons.Filled.Refresh, contentDescription = "Update")
+                    Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.update))
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 FloatingActionButton(
@@ -38,7 +40,7 @@ fun HomeBottomBar(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ) {
-                    Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                    Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings))
                 }
             }
         },
@@ -48,7 +50,7 @@ fun HomeBottomBar(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "Agregar")
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add))
             }
         }
     )

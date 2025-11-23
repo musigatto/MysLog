@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.myslog.core.Routes
 import com.example.myslog.db.entities.Session
 import com.example.myslog.db.repository.MysRepository
-import com.example.myslog.db.repository.MysRepositoryImpl
 import com.example.myslog.ui.ExerciseWrapper
 import com.example.myslog.ui.SessionWrapper
 import com.example.myslog.ui.session.actions.OpenInFinish

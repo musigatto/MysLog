@@ -4,22 +4,34 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myslog.R
 import com.example.myslog.core.Routes
 import com.example.myslog.db.entities.GymSet
 import com.example.myslog.db.entities.Session
 import com.example.myslog.ui.SessionWrapper
 import com.example.myslog.ui.TimerState
 import com.example.myslog.ui.session.actions.FinishResult
-import com.example.myslog.ui.session.actions.ExerciseSummary
 import com.example.myslog.ui.session.components.DeletionAlertDialog
 import com.example.myslog.ui.session.components.KeepScreenOnEffect
 import com.example.myslog.ui.session.components.SessionPreview
@@ -27,7 +39,6 @@ import com.example.myslog.ui.settings.SettingsViewModel
 import com.example.myslog.utils.TimerService
 import com.example.myslog.utils.UiEvent
 import com.example.myslog.utils.sendTimerAction
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -120,8 +131,8 @@ fun SessionScreen(
                 viewModel.onEvent(SessionEvent.RemoveSelectedExercises)
                 deleteExerciseDialog.value = false
             },
-            title = { Text("Eliminar ejercicio${if (selectedExercises.size > 1) "s" else ""}?") },
-            text = { Text("¿Seguro que deseas eliminar los ejercicios seleccionados de esta sesión?") }
+            title = { Text(stringResource(R.string.delete_selected_ex)) },
+            text = { Text(stringResource(R.string.sure_about_ex_del)) }
         )
     }
 
@@ -132,8 +143,8 @@ fun SessionScreen(
                 viewModel.onEvent(SessionEvent.RemoveSession)
                 deleteSessionDialog.value = false
             },
-            title = { Text("¿Eliminar sesión?") },
-            text = { Text("¿Seguro que deseas eliminar esta sesión y todo su contenido?") }
+            title = { Text(stringResource(R.string.delete_ses)) },
+            text = { Text(stringResource(R.string.sure_bout_sess_del)) }
         )
     }
 
@@ -145,16 +156,23 @@ fun SessionScreen(
     if (finishResult.value != null) {
         AlertDialog(
             onDismissRequest = { finishResult.value = null },
-            title = { Text("Sesión terminada 🎉") },
+            title = { Text(stringResource(R.string.finished_sess)) },
             text = {
                 Column {
                     finishResult.value!!.exerciseSummaries.forEach { summary ->
-                        Text("${summary.exerciseName}: ${summary.totalSets} series, ${summary.hardSets} al fallo (📅 ${summary.weeklyHardSets} esta semana)")
+                        Text(
+                            stringResource(
+                                R.string.this_week,
+                                summary.exerciseName,
+                                summary.totalSets,
+                                summary.hardSets,
+                                summary.weeklyHardSets
+                            ))
                     }
                     Spacer(Modifier.height(8.dp))
                     Divider()
                     Spacer(Modifier.height(8.dp))
-                    Text("🔥 En total: ${finishResult.value!!.sessionHardSets} sets al fallo en esta sesión.")
+                    Text(stringResource(R.string.total_sets, finishResult.value!!.sessionHardSets))
                 }
             },
             confirmButton = {
@@ -162,7 +180,7 @@ fun SessionScreen(
                     finishResult.value = null
                     onNavigate(UiEvent.Navigate(Routes.HOME, popBackStack = true))
                 }) {
-                    Text("OK")
+                    Text(stringResource(R.string.accept))
                 }
             }
         )

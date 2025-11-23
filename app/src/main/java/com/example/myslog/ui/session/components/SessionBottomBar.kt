@@ -12,8 +12,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.ui.TimerState
 import com.example.myslog.ui.session.actions.TimerAction
 import com.example.myslog.utils.Event
@@ -29,7 +31,7 @@ fun SessionBottomBar(
     onEvent: (Event) -> Unit
 ) {
     Column {
-        // Barra de temporizador con animación
+
         AnimatedVisibility(
             visible = timerVisible,
             enter = slideInVertically(
@@ -51,13 +53,13 @@ fun SessionBottomBar(
             containerColor = Color.Transparent,
             actions = {
                 Row {
-                    // Botón de eliminar sesión
+
                     FloatingActionButton(
                         onClick = onDeleteSession,
                         modifier = Modifier.size(48.dp),
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     ) {
-                        Icon(Icons.Outlined.Delete, contentDescription = "Delete Session")
+                        Icon(Icons.Outlined.Delete, contentDescription = stringResource(R.string.delete_session))
                     }
 
                     Spacer(modifier = Modifier.width(12.dp))
@@ -65,10 +67,12 @@ fun SessionBottomBar(
                     // Botón de terminar sesión
                     FloatingActionButton(
                         onClick = onFinishSession,
-                        modifier = Modifier.width(80.dp).height(48.dp),
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height(48.dp),
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ) {
-                        Text("Finish")
+                        Text(stringResource(R.string.finish))
                     }
 
                     Spacer(modifier = Modifier.width(12.dp))
@@ -92,7 +96,7 @@ fun SessionBottomBar(
                     onClick = onFAB,
                     containerColor = MaterialTheme.colorScheme.primary
                 ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Exercise")
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(R.string.add_exercise))
                 }
             }
         )

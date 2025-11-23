@@ -1,6 +1,5 @@
 package com.example.myslog.ui.session.components
 
-// Imports necesarios para LazyColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,9 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.db.entities.Session
 import com.example.myslog.ui.SessionWrapper
 import java.time.LocalDateTime
@@ -60,7 +61,9 @@ fun HeaderSession(
 ) {
     val session = sessionWrapper.session
     val startTime = DateTimeFormatter.ofPattern("HH:mm").format(session.start)
-    val endTime = session.end?.let { DateTimeFormatter.ofPattern("HH:mm").format(it) } ?: "ongoing"
+    val endTime = session.end?.let { DateTimeFormatter.ofPattern("HH:mm").format(it) } ?: stringResource(
+        R.string.ongoing
+    )
 
     Box(
         modifier = Modifier
@@ -129,7 +132,7 @@ fun HeaderSession(
                             .padding(start = 4.dp)
                             .clickable {
                                 onStartTime(session.start)
-                        }
+                            }
                     )
                                 Text (
                                 text = "-",
@@ -143,8 +146,8 @@ fun HeaderSession(
                         modifier = Modifier
                             .padding(start = 4.dp)
                             .clickable {
-                            session.end?.let { onEndTime(it) }
-                        }
+                                session.end?.let { onEndTime(it) }
+                            }
                     )
                 }
                 FlowRow(

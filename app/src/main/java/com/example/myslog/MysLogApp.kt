@@ -12,14 +12,14 @@ class MysLogApp: Application() {
         super.onCreate()
         val channel = NotificationChannel(
             TimerService.CHANNEL_ID,
-            "Workout Timer",
+            getString(R.string.workout_timer),
             NotificationManager.IMPORTANCE_DEFAULT
         ).also {
             it.setSound(null, null)
         }
         val alertChannel = NotificationChannel(
             TimerService.ALERT_CHANNEL_ID,
-            "Workout Timer Alerts",
+            getString(R.string.workout_timer_alerts),
             NotificationManager.IMPORTANCE_HIGH
         ).also {
             it.enableVibration(true)

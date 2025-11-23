@@ -9,10 +9,8 @@ sealed class HomeEvent : Event {
     data class DeleteSessionRequested(val sessionWrapper: SessionWrapper) : HomeEvent()
     data class ConfirmDeleteSession(val sessionId: Long) : HomeEvent()
 
-
     object NewSession : HomeEvent()
     object OpenSettings : HomeEvent()
     object CheckUpdates : HomeEvent()
-    data class SwitchLanguage(val lang: String) : HomeEvent()
 
 }

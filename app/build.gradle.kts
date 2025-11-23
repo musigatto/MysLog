@@ -89,7 +89,7 @@ android {
         // Coil
         implementation(libs.coil.compose)
 
-        implementation("com.github.jeziellago:compose-markdown:0.5.8")
+        implementation(libs.compose.markdown)
     }
 }
 dependencies {

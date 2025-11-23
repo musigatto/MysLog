@@ -3,16 +3,30 @@
     import androidx.activity.compose.rememberLauncherForActivityResult
     import androidx.activity.result.contract.ActivityResultContracts
     import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-    import androidx.compose.foundation.layout.*
-    import androidx.compose.material3.*
-    import androidx.compose.runtime.*
+    import androidx.compose.foundation.layout.Arrangement
+    import androidx.compose.foundation.layout.Column
+    import androidx.compose.foundation.layout.Row
+    import androidx.compose.foundation.layout.Spacer
+    import androidx.compose.foundation.layout.fillMaxSize
+    import androidx.compose.foundation.layout.height
+    import androidx.compose.foundation.layout.padding
+    import androidx.compose.material3.Checkbox
+    import androidx.compose.material3.FilledTonalButton
+    import androidx.compose.material3.MaterialTheme
+    import androidx.compose.material3.Scaffold
+    import androidx.compose.material3.Text
+    import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.LaunchedEffect
+    import androidx.compose.runtime.collectAsState
+    import androidx.compose.runtime.getValue
     import androidx.compose.ui.Alignment
     import androidx.compose.ui.Modifier
     import androidx.compose.ui.platform.LocalContext
-    import androidx.compose.ui.tooling.preview.Preview
+    import androidx.compose.ui.res.stringResource
     import androidx.compose.ui.unit.dp
     import androidx.hilt.navigation.compose.hiltViewModel
     import androidx.navigation.NavHostController
+    import com.example.myslog.R
     import com.example.myslog.utils.UiEvent
     import kotlinx.coroutines.flow.collectLatest
 
@@ -56,7 +70,7 @@
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text("Settings", style = MaterialTheme.typography.headlineMedium)
+                Text(stringResource(R.string.settings), style = MaterialTheme.typography.headlineMedium)
 
                 Spacer(Modifier.height(16.dp))
 
@@ -68,7 +82,7 @@
                             viewModel.onEvent(SettingsEvent.ToggleKeepScreenOn(checked))
                         }
                     )
-                    Text("Mantener pantalla encendida")
+                    Text(stringResource(R.string.keep_screen))
                 }
 
                 Spacer(Modifier.height(16.dp))
@@ -76,19 +90,19 @@
                 FilledTonalButton(onClick = {
                     viewModel.onEvent(SettingsEvent.CreateFile)
                 }) {
-                    Text("Export Database")
+                    Text(stringResource(R.string.export_database))
                 }
 
                 FilledTonalButton(onClick = {
                     importLauncher.launch("application/json")
                 }) {
-                    Text("Import Database")
+                    Text(stringResource(R.string.import_database))
                 }
 
                 FilledTonalButton(onClick = {
                     viewModel.onEvent(SettingsEvent.ClearDatabase)
                 }) {
-                    Text("Delete Database")
+                    Text(stringResource(R.string.delete_database))
                 }
             }
         }

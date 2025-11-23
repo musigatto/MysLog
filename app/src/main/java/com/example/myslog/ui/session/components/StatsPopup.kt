@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import java.time.format.DateTimeFormatter
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
+import com.example.myslog.R
 
 
 data class StatEntry(val date: java.time.LocalDate, val pesoMax: Float)
@@ -29,7 +31,7 @@ fun StatsPopup(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Estadísticas") },
+        title = { Text(stringResource(R.string.stats)) },
         text = {
             Column(
                 modifier = Modifier
@@ -38,7 +40,7 @@ fun StatsPopup(
                     .padding(8.dp)
             ) {
                 if (stats.isEmpty()) {
-                    Text("No hay datos")
+                    Text(stringResource(R.string.no_data))
                 } else {
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         val padding = 50f // más espacio para etiquetas
@@ -108,7 +110,7 @@ fun StatsPopup(
         },
         confirmButton = {
             Button(onClick = onDismiss) {
-                Text("Cerrar")
+                Text(stringResource(R.string.close))
             }
         }
     )
