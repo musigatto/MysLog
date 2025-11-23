@@ -96,6 +96,7 @@
     <string name="ready">Ready for your next workout?</string>
     <string name="ask_name">To personalize your experience, please introduce your name</string>
     <string name="name_placeholder">Your name</string>
+    <string name="skip">Skip</string>
 </resources>
 
 

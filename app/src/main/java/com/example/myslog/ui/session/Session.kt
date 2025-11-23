@@ -1,9 +1,14 @@
 package com.example.myslog.ui.session
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myslog.R
 import com.example.myslog.core.Routes
@@ -51,6 +57,16 @@ fun SessionScreen(
     val context = LocalContext.current
     val keepScreenOn by settingsViewModel.keepScreenOn.collectAsState()
 
+    // Solicitud de permisos para notificaciones
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        // Manejar el resultado si es necesario
+        if (!isGranted) {
+            // Opcional: mostrar mensaje al usuario sobre la importancia del permiso
+        }
+    }
+
     KeepScreenOnEffect(keepScreenOn)
 
     val session by viewModel.session.collectAsState(SessionWrapper(Session(), emptyList()))
@@ -65,6 +81,13 @@ fun SessionScreen(
     val timerVisible = remember { mutableStateOf(false) }
     val timerState = remember { mutableStateOf(TimerState(0L, false, 0L)) }
     val finishResult = remember { mutableStateOf<FinishResult?>(null) }
+
+    // Solicitar permisos cuando se entra a la pantalla de sesión
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     DisposableEffect(context) {
         val receiver = object : BroadcastReceiver() {

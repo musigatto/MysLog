@@ -57,12 +57,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    ActivityCompat.requestPermissions(
-                        this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
-                    )
-                }
-
                 val context = LocalContext.current
                 val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -121,7 +115,10 @@ class MainActivity : ComponentActivity() {
                     var name by remember { mutableStateOf("") }
 
                     AlertDialog(
-                        onDismissRequest = { /* No permitir cerrar sin ingresar nombre */ },
+                        onDismissRequest = {
+                            prefs.edit().putString("user_name", "").apply()
+                            showNameDialog = false
+                        },
                         title = { Text("¡Bienvenido!") },
                         text = {
                             Column {
@@ -143,9 +140,21 @@ class MainActivity : ComponentActivity() {
                                         showNameDialog = false
                                     }
                                 },
+
                                 enabled = name.isNotBlank()
                             ) {
                                 Text(stringResource(R.string.continue_))
+                            }
+                        },
+                        // NUEVO: Botón para saltar
+                        dismissButton = {
+                            TextButton(
+                                onClick = {
+                                    prefs.edit().putString("user_name", "").apply()
+                                    showNameDialog = false
+                                }
+                            ) {
+                                Text(stringResource(R.string.skip))
                             }
                         }
                     )

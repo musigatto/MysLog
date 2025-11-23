@@ -94,5 +94,6 @@
     <string name="ready">¿Listo para tu próxima sesión?</string>
     <string name="ask_name">Para personalizar tu experiencia, ingresa tu nombre:</string>
     <string name="name_placeholder">Tu nombre</string>
+    <string name="skip">Saltar</string>
 
 </resources>
