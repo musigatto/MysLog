@@ -90,6 +90,7 @@
     <string name="filter_by_body_part">Filter by Body-part</string>
     <string name="search">Search</string>
     <string name="add_num">ADD %1$d</string>
+    <string name="deselect_all">Deselect All</string>
 </resources>
 
 

@@ -88,5 +88,6 @@
     <string name="filter_by_body_part">Filtrar por músculos</string>
     <string name="search">Buscar</string>
     <string name="add_num">AÑADIR %1$d</string>
+    <string name="deselect_all">Quitar selección</string>
 
 </resources>
