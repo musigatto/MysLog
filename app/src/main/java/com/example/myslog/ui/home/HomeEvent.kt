@@ -11,6 +11,5 @@ sealed class HomeEvent : Event {
 
     object NewSession : HomeEvent()
     object OpenSettings : HomeEvent()
-    object CheckUpdates : HomeEvent()
 
 }

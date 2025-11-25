@@ -97,6 +97,25 @@
     <string name="ask_name">To personalize your experience, please introduce your name</string>
     <string name="name_placeholder">Your name</string>
     <string name="skip">Skip</string>
+    <string name="edit_name">Edit name</string>
+    <string name="change_username">Change your username:</string>
+    <string name="your_name">Your name</string>
+    <string name="delete_alldb">Delete all database</string>
+    <string name="delete_db_really">Are you sure? This action cannot be undone and all workouts will be lost.</string>
+    <string name="prefs_app">App preferences</string>
+    <string name="profile">Profile</string>
+    <string name="username">Username</string>
+    <string name="not_stablished">Not stablished</string>
+    <string name="edit">Edit</string>
+    <string name="screen">Screen</string>
+    <string name="keep_screen_on">Keep screen on</string>
+    <string name="screen_on_subtitle">Prevent the screen from turning off during workouts</string>
+    <string name="back_ups">Backups</string>
+    <string name="export_db">Export database</string>
+    <string name="import_db">Import database</string>
+    <string name="ask_delete">These actions are irreversible. Proceed with caution.</string>
+    <string name="delete_db_subtitle">Erase all data</string>
+    <string name="danger">Danger Zone</string>
 </resources>
 
 

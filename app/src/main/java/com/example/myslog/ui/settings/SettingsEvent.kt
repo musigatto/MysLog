@@ -13,4 +13,5 @@ sealed class SettingsEvent : Event {
 
     data class ToggleKeepScreenOn(val enabled: Boolean) : SettingsEvent()
 
+    data class UpdateUserName(val name: String) : SettingsEvent()
 }

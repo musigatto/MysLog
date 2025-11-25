@@ -70,12 +70,6 @@ fun HomeScreen(
         bottomBar = {
             HomeBottomBar(onEvent = { event ->
                 when (event) {
-                    HomeEvent.CheckUpdates -> {
-                        coroutineScope.launch(Dispatchers.IO) {
-                            val lang = Locale.getDefault().language
-                            Timber.d("Idioma actual del sistema: $lang")
-                        }
-                    }
                     else -> viewModel.onEvent(event)
                 }
             })

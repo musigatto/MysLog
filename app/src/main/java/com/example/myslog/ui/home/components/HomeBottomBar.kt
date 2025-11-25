@@ -25,15 +25,7 @@ fun HomeBottomBar(
         containerColor = Color.Transparent,
         actions = {
             Row {
-                FloatingActionButton(
-                    onClick = { onEvent(HomeEvent.CheckUpdates) },
-                    modifier = Modifier.size(48.dp),
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ) {
-                    Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.update))
-                }
-                Spacer(modifier = Modifier.width(12.dp))
+
                 FloatingActionButton(
                     onClick = { onEvent(HomeEvent.OpenSettings) },
                     modifier = Modifier.size(48.dp),

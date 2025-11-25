@@ -95,5 +95,24 @@
     <string name="ask_name">Para personalizar tu experiencia, ingresa tu nombre:</string>
     <string name="name_placeholder">Tu nombre</string>
     <string name="skip">Saltar</string>
+    <string name="edit_name">Editar nombre</string>
+    <string name="change_username">Cambia tu nombre de usuario:</string>
+    <string name="your_name">Tu nombre\t\t\t</string>
+    <string name="delete_alldb">Borrar toda la base de datos</string>
+    <string name="delete_db_really">¿Estás seguro? Esta acción no se puede deshacer y se perderán todos tus entrenamientos.</string>
+    <string name="prefs_app">Preferencias de la aplicación</string>
+    <string name="profile">Perfil de usuario</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="not_stablished">No establecido</string>
+    <string name="edit">Editar</string>
+    <string name="screen">Pantalla</string>
+    <string name="keep_screen_on">Mantener pantalla encendida</string>
+    <string name="screen_on_subtitle">Evita que la pantalla se apague durante los entrenamientos</string>
+    <string name="back_ups">Copias de seguridad</string>
+    <string name="export_db">Exportar base de datos</string>
+    <string name="import_db">Importar base de datos</string>
+    <string name="ask_delete">Estas acciones son irreversibles. Procede con cuidado.</string>
+    <string name="delete_db_subtitle">Borrar toda la base de datos</string>
+    <string name="danger">Zona de peligro</string>
 
 </resources>

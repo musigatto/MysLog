@@ -27,10 +27,14 @@ class SettingsViewModel @Inject constructor(
 ) : AndroidViewModel(app) {
 
     private val prefs: SharedPreferences =
-        app.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
+        app.getSharedPreferences("user_prefs", Context.MODE_PRIVATE) // CAMBIO: usar user_prefs
 
     private val _keepScreenOn = MutableStateFlow(prefs.getBoolean("keep_screen_on", false))
     val keepScreenOn: StateFlow<Boolean> = _keepScreenOn
+
+    // NUEVO: Estado para el nombre de usuario
+    private val _userName = MutableStateFlow(prefs.getString("user_name", "") ?: "")
+    val userName: StateFlow<String> = _userName
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -65,6 +69,13 @@ class SettingsViewModel @Inject constructor(
                 _keepScreenOn.value = event.enabled
                 prefs.edit { putBoolean("keep_screen_on", event.enabled) }
                 Timber.d("KeepScreenOn set to ${event.enabled}")
+            }
+
+            // NUEVO: Manejar actualización de nombre
+            is SettingsEvent.UpdateUserName -> {
+                _userName.value = event.name
+                prefs.edit { putString("user_name", event.name) }
+                Timber.d("UserName updated to: ${event.name}")
             }
         }
     }

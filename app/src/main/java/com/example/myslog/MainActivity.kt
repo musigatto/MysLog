@@ -31,6 +31,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 var showNameDialog by remember {
                     mutableStateOf(
                         prefs.getBoolean("terms_accepted", false) &&
-                                prefs.getString("user_name", "").isNullOrEmpty()
+                                !prefs.getBoolean("name_dialog_shown", false)
                     )
                 }
 
@@ -84,7 +85,11 @@ class MainActivity : ComponentActivity() {
                 // Flujo: Términos -> Nombre -> Home
                 if (showTermsDialog) {
                     AlertDialog(
-                        onDismissRequest = { finish() },
+                        onDismissRequest = {     prefs.edit {
+                            putString("user_name", "")
+                                .putBoolean("name_dialog_shown", true)
+                        }
+                            showNameDialog = false },
                         title = { Text(stringResource(R.string.code_conduct)) },
                         text = {
                             Column(
@@ -98,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         },
                         confirmButton = {
                             TextButton(onClick = {
-                                prefs.edit().putBoolean("terms_accepted", true).apply()
+                                prefs.edit { putBoolean("terms_accepted", true) }
                                 showTermsDialog = false
                                 showNameDialog = true
                             }) {
@@ -116,7 +121,7 @@ class MainActivity : ComponentActivity() {
 
                     AlertDialog(
                         onDismissRequest = {
-                            prefs.edit().putString("user_name", "").apply()
+                            prefs.edit { putString("user_name", "") }
                             showNameDialog = false
                         },
                         title = { Text("¡Bienvenido!") },
@@ -135,22 +140,23 @@ class MainActivity : ComponentActivity() {
                         confirmButton = {
                             TextButton(
                                 onClick = {
-                                    if (name.isNotBlank()) {
-                                        prefs.edit().putString("user_name", name).apply()
-                                        showNameDialog = false
+                                    prefs.edit {
+                                        putString("user_name", name)
+                                            .putBoolean("name_dialog_shown", true)
                                     }
-                                },
-
-                                enabled = name.isNotBlank()
+                                    showNameDialog = false
+                                }
                             ) {
                                 Text(stringResource(R.string.continue_))
                             }
                         },
-                        // NUEVO: Botón para saltar
                         dismissButton = {
                             TextButton(
                                 onClick = {
-                                    prefs.edit().putString("user_name", "").apply()
+                                    prefs.edit {
+                                        putString("user_name", "")
+                                            .putBoolean("name_dialog_shown", true)
+                                    }
                                     showNameDialog = false
                                 }
                             ) {
