@@ -114,5 +114,6 @@
     <string name="ask_delete">Estas acciones son irreversibles. Procede con cuidado.</string>
     <string name="delete_db_subtitle">Borrar toda la base de datos</string>
     <string name="danger">Zona de peligro</string>
+    <string name="welcome_2">¡Muy buenas!</string>
 
 </resources>

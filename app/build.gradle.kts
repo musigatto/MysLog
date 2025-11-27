@@ -89,6 +89,7 @@ android {
         // Coil
         implementation(libs.coil.compose)
 
+        //markdown
         implementation(libs.compose.markdown)
     }
 }

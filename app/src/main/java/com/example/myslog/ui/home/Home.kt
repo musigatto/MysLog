@@ -1,42 +1,54 @@
+// Home.kt (modificado)
 package com.example.myslog.ui.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myslog.R
 import com.example.myslog.ui.home.components.HomeBottomBar
 import com.example.myslog.ui.home.components.SessionCard
+import com.example.myslog.ui.tutorial.TutorialDialog
+import com.example.myslog.ui.tutorial.TutorialViewModel
 import com.example.myslog.utils.UiEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     userName: String = "",
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    tutorialViewModel: TutorialViewModel = hiltViewModel()
 ) {
     val sessions by viewModel.sessions.collectAsState()
     val sessionToDelete = viewModel.sessionToDelete
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
 
+    // Estado del tutorial
+    val tutorialState by tutorialViewModel.tutorialState.collectAsStateWithLifecycle()
+
+    // Mostrar diálogo de tutorial si está activo
+    if (tutorialState.showTutorial) {
+        TutorialDialog(
+            currentStep = tutorialState.currentStep,
+            totalSteps = TutorialViewModel.TOTAL_TUTORIAL_STEPS,
+            onNext = { tutorialViewModel.nextStep() },
+            onSkip = { tutorialViewModel.skipTutorial() }
+        )
+    }
+
+    // Diálogo de eliminación de sesión (existente)
     if (sessionToDelete != null) {
         AlertDialog(
             onDismissRequest = { viewModel.sessionToDelete = null },
@@ -65,6 +77,13 @@ fun HomeScreen(
         }
     }
 
+    // Iniciar tutorial automáticamente si no se ha completado y es el primer acceso
+    LaunchedEffect(Unit) {
+        if (!tutorialState.isTutorialCompleted && sessions.isEmpty()) {
+            tutorialViewModel.startTutorial()
+        }
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
@@ -73,6 +92,22 @@ fun HomeScreen(
                     else -> viewModel.onEvent(event)
                 }
             })
+        },
+        floatingActionButton = {
+            // Botón para reiniciar tutorial (solo para testing)
+            if (!tutorialState.showTutorial) {
+                FloatingActionButton(
+                    onClick = { tutorialViewModel.startTutorial() },
+                    modifier = Modifier.size(48.dp),
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                ) {
+                    Icon(
+                        // Usa un ícono temporal - puedes cambiar después
+                        imageVector = Icons.AutoMirrored.Filled.Help,
+                        contentDescription = "Mostrar tutorial"
+                    )
+                }
+            }
         }
     ) { paddingValues ->
         Column(
@@ -80,7 +115,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Nuevo: Saludo de bienvenida
+            // Saludo de bienvenida (existente)
             if (userName.isNotBlank()) {
                 Card(
                     modifier = Modifier

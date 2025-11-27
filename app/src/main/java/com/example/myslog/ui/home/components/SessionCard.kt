@@ -53,7 +53,7 @@ fun SessionCard(
         ),
 
 
-    ) {
+        ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

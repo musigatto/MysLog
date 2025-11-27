@@ -110,11 +110,11 @@ class MainActivity : ComponentActivity() {
                                 Text(stringResource(R.string.accept))
                             }
                         },
-                        dismissButton = {
-                            TextButton(onClick = { finish() }) {
-                                Text(stringResource(R.string.cancel))
-                            }
-                        }
+//                        dismissButton = {
+//                            TextButton(onClick = { finish() }) {
+//                                Text(stringResource(R.string.cancel))
+//                            }
+//                        }
                     )
                 } else if (showNameDialog) {
                     var name by remember { mutableStateOf("") }
@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
                             prefs.edit { putString("user_name", "") }
                             showNameDialog = false
                         },
-                        title = { Text("¡Bienvenido!") },
+                        title = { stringResource(R.string.welcome_2) },
                         text = {
                             Column {
                                 Text(stringResource(R.string.ask_name))
