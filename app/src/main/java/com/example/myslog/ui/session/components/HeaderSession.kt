@@ -57,8 +57,9 @@ fun HeaderSession(
     scrollState: LazyListState,
     topPadding: Dp,
     onEndTime: (LocalDateTime) -> Unit,
-    onStartTime: (LocalDateTime) -> Unit
-) {
+    onStartTime: (LocalDateTime) -> Unit,
+
+    ) {
     val session = sessionWrapper.session
     val startTime = DateTimeFormatter.ofPattern("HH:mm").format(session.start)
     val endTime = session.end?.let { DateTimeFormatter.ofPattern("HH:mm").format(it) } ?: stringResource(
@@ -196,7 +197,7 @@ fun PreviewHeaderSession() {
                 scrollState = scrollState, // Pasa el mismo scrollState
                 topPadding = 16.dp,
                 onEndTime = {},
-                onStartTime = {}
+                onStartTime = {},
             )
         }
         // Puedes añadir items de relleno para probar el scroll si quieres

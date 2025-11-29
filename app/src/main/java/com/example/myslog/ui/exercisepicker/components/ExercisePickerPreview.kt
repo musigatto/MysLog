@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
@@ -67,7 +69,8 @@ fun ExercisePickerPreview(
     onFilterSelectedClick: () -> Unit,
     onFilterUsedClick: () -> Unit,
     onMuscleFilterClick: () -> Unit,
-    onEquipmentFilterClick: () -> Unit
+    onEquipmentFilterClick: () -> Unit,
+    onTutorialClick: () -> Unit = {}
 ) {
     FilterChipDefaults.filterChipColors(
         selectedContainerColor = MaterialTheme.colorScheme.primary,
@@ -82,21 +85,39 @@ fun ExercisePickerPreview(
 
     Scaffold(
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = selectedExercises.isNotEmpty(),
-                enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut()
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // FAB del tutorial (PRIMERO - se mostrará ARRIBA)
                 FloatingActionButton(
-                    onClick = onAddClick,
-                    containerColor = MaterialTheme.colorScheme.primary
+                    onClick = onTutorialClick,
+                    modifier = Modifier.size(48.dp),
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                 ) {
-                    Text(
-                        stringResource(R.string.add_num, selectedExercises.size),
-                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 10.dp),
-                        style = MaterialTheme.typography.labelLarge,
-                        textAlign = TextAlign.Center
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Help,
+                        contentDescription = "Mostrar tutorial"
                     )
+                }
+
+                // FAB para añadir ejercicios (SEGUNDO - se mostrará ABAJO)
+                AnimatedVisibility(
+                    visible = selectedExercises.isNotEmpty(),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
+                ) {
+                    FloatingActionButton(
+                        onClick = onAddClick,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ) {
+                        Text(
+                            stringResource(R.string.add_num, selectedExercises.size),
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 10.dp),
+                            style = MaterialTheme.typography.labelLarge,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }

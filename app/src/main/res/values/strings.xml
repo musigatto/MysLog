@@ -117,6 +117,7 @@
     <string name="delete_db_subtitle">Erase all data</string>
     <string name="danger">Danger Zone</string>
     <string name="welcome_2">Welcome!</string>
+    <string name="next">Next</string>
 </resources>
 
 

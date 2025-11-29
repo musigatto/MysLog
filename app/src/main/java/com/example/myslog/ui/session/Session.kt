@@ -6,15 +6,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,8 +35,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myslog.R
 import com.example.myslog.core.Routes
 import com.example.myslog.db.entities.GymSet
@@ -42,6 +48,9 @@ import com.example.myslog.ui.session.components.DeletionAlertDialog
 import com.example.myslog.ui.session.components.KeepScreenOnEffect
 import com.example.myslog.ui.session.components.SessionPreview
 import com.example.myslog.ui.settings.SettingsViewModel
+import com.example.myslog.ui.tutorial.TutorialDialog
+import com.example.myslog.ui.tutorial.TutorialType
+import com.example.myslog.ui.tutorial.TutorialViewModel
 import com.example.myslog.utils.TimerService
 import com.example.myslog.utils.UiEvent
 import com.example.myslog.utils.sendTimerAction
@@ -81,6 +90,20 @@ fun SessionScreen(
     val timerVisible = remember { mutableStateOf(false) }
     val timerState = remember { mutableStateOf(TimerState(0L, false, 0L)) }
     val finishResult = remember { mutableStateOf<FinishResult?>(null) }
+// En SessionScreen.kt, agregar después de las declaraciones de viewModel:
+    val tutorialViewModel: TutorialViewModel = hiltViewModel()
+    val tutorialState by tutorialViewModel.tutorialState.collectAsStateWithLifecycle()
+
+// Mostrar diálogo de tutorial si está activo
+    if (tutorialState.showTutorial && tutorialState.tutorialType == TutorialType.SESSION) {
+        TutorialDialog(
+            currentStep = tutorialState.currentStep,
+            totalSteps = TutorialViewModel.SESSION_TUTORIAL_STEPS,
+            tutorialType = tutorialState.tutorialType,
+            onNext = { tutorialViewModel.nextStep() },
+            onSkip = { tutorialViewModel.skipTutorial() }
+        )
+    }
 
     // Solicitar permisos cuando se entra a la pantalla de sesión
     LaunchedEffect(Unit) {
@@ -132,20 +155,21 @@ fun SessionScreen(
         }
     }
 
-    SessionPreview(
-        session = session,
-        exercises = exercises,
-        expandedExercise = expandedExercise,
-        selectedExercises = selectedExercises,
-        muscleGroups = muscleGroups,
-        onEvent = viewModel::onEvent,
-        onNavigate = onNavigate,
-        deleteExerciseDialog = deleteExerciseDialog,
-        deleteSessionDialog = deleteSessionDialog,
-        deleteSetDialog = deleteSetDialog,
-        timerVisible = timerVisible,
-        timerState = timerState.value
-    )
+        SessionPreview(
+            session = session,
+            exercises = exercises,
+            expandedExercise = expandedExercise,
+            selectedExercises = selectedExercises,
+            muscleGroups = muscleGroups,
+            onEvent = viewModel::onEvent,
+            onNavigate = onNavigate,
+            deleteExerciseDialog = deleteExerciseDialog,
+            deleteSessionDialog = deleteSessionDialog,
+            deleteSetDialog = deleteSetDialog,
+            timerVisible = timerVisible,
+            timerState = timerState.value,
+            onTutorialClick = { tutorialViewModel.startTutorial(TutorialType.SESSION) }
+        )
 
     if (deleteExerciseDialog.value) {
         DeletionAlertDialog(

@@ -3,10 +3,16 @@ package com.example.myslog.ui.session.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -14,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.myslog.db.entities.Exercise
 import com.example.myslog.db.entities.GymSet
 import com.example.myslog.db.entities.Session
@@ -39,11 +46,24 @@ fun SessionPreview(
     deleteSessionDialog: MutableState<Boolean>,
     deleteSetDialog: MutableState<GymSet?>,
     timerVisible: MutableState<Boolean>,
-    timerState: TimerState
+    timerState: TimerState,
+    onTutorialClick: () -> Unit
 ) {
     val scrollState = rememberLazyListState()
 
     Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onTutorialClick,
+                modifier = Modifier.size(48.dp),
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Help,
+                    contentDescription = "Mostrar tutorial"
+                )
+            }
+        },
         bottomBar = {
             SessionBottomBar(
                 onDeleteSession = { deleteSessionDialog.value = true },
@@ -73,7 +93,8 @@ fun SessionPreview(
                     },
                     onEndTime = { newTime ->
                         onEvent(SessionEvent.EndTimeChanged(newTime.toLocalTime()))
-                    }
+                    },
+
                 )
             }
 
@@ -165,6 +186,7 @@ fun SessionScreenPreviewContent() {
         deleteSessionDialog = deleteSessionDialog,
         deleteSetDialog = deleteSetDialog,
         timerVisible = timerVisible,
-        timerState = timerState
+        timerState = timerState,
+        onTutorialClick = {}
     )
 }
