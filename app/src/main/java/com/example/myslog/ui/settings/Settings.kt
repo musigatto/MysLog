@@ -65,7 +65,7 @@ fun SettingsScreen(
     var tempName by remember { mutableStateOf("") }
 
     val exportLauncher = rememberLauncherForActivityResult(
-        contract = CreateDocument("application/json"),
+        contract = CreateDocument("application/zip"),
         onResult = { uri ->
             uri?.let { viewModel.onEvent(SettingsEvent.ExportDatabase(mContext, it)) }
         }
@@ -311,7 +311,7 @@ fun SettingsScreen(
 
                     // Importar base de datos
                     OutlinedButton(
-                        onClick = { importLauncher.launch("application/json") },
+                        onClick = { importLauncher.launch("application/zip") },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Icon(

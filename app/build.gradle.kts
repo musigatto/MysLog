@@ -91,6 +91,8 @@ android {
 
         //markdown
         implementation(libs.compose.markdown)
+        implementation(libs.sqlite.ktx)
+
     }
 }
 dependencies {

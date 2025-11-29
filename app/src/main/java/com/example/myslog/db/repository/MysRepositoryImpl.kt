@@ -110,4 +110,8 @@ class MysRepositoryImpl @Inject constructor(
 
     override fun getExerciseHistory(exerciseId: String): Flow<List<ExerciseHistory>> =
         dao.getExerciseHistory(exerciseId)
+
+    override fun closeDatabase() {
+        db.close()
+    }
 }

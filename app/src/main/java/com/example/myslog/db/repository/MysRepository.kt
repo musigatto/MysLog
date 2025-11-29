@@ -56,4 +56,5 @@ interface MysRepository {
     // En MysRepository.kt - AGREGAR:
     fun getExerciseStats(exerciseId: String): Flow<List<ExerciseStats>>
     fun getExerciseHistory(exerciseId: String): Flow<List<ExerciseHistory>>
+    fun closeDatabase()
 }
