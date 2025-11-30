@@ -1,6 +1,5 @@
 package com.example.myslog.ui
 
-
 import com.example.myslog.ui.exercisepicker.ExercisePicker
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -17,7 +16,8 @@ import timber.log.Timber
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    userName: String = ""
 ) {
 
     NavHost(
@@ -28,6 +28,7 @@ fun AppNavHost(
         composable(Routes.HOME) {
             HomeScreen(
                 onNavigate = { navController.navigationEvent(event = it) },
+                userName = userName
             )
         }
         composable(Routes.SETTINGS) {
@@ -40,17 +41,16 @@ fun AppNavHost(
                     type = NavType.LongType
                 }
             )
-        ) {backStackEntry ->
+        ) { backStackEntry ->
             val sessionId = backStackEntry.arguments?.getLong("session_id")
             Timber.tag("NavigationDebug").d("Entrando a ExercisePicker con sessionId = $sessionId")
             ExercisePicker(
-               navController = navController,
+                navController = navController,
             )
         }
         composable(
             route = "${Routes.SESSION}/{session_id}",
             arguments = listOf(navArgument("session_id") {
-
                 type = NavType.LongType
             })
         ) {
@@ -58,7 +58,6 @@ fun AppNavHost(
                 onNavigate = { navController.navigationEvent(event = it) },
             )
         }
-
     }
 }
 

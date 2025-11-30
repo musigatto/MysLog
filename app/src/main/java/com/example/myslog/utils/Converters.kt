@@ -1,6 +1,7 @@
 package com.example.myslog.utils
 
 import androidx.room.TypeConverter
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class Converters {
@@ -26,6 +27,21 @@ class Converters {
     fun toDateTime(source: String?): LocalDateTime? {
         return try {
             if (source.isNullOrBlank()) null else LocalDateTime.parse(source)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
+    @TypeConverter
+    fun fromLocalDate(date: LocalDate?): String? {
+        return date?.toString()
+    }
+
+    @TypeConverter
+    fun toLocalDate(dateString: String?): LocalDate? {
+        return try {
+            dateString?.let { LocalDate.parse(it) }
         } catch (e: Exception) {
             null
         }

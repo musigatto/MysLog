@@ -22,8 +22,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
+import com.example.myslog.db.entities.ExerciseStats
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
@@ -147,7 +147,6 @@ class ExerciseViewModel @Inject constructor(
 
                     _selectedExercises.value = exercisesToSelect
 
-                    // Activar filtro Selected sin recomponer toda la lista original
                     _filterSelected.value = true
                     _filteredExercisesForSelected.value = exercisesToSelect
                 }
@@ -171,13 +170,12 @@ class ExerciseViewModel @Inject constructor(
 
             is ExerciseEvent.DeleteWorkout -> {
                 viewModelScope.launch {
-                    // Borrar todos los ejercicios asociados
+
                     val workoutExercises = repo.getExercisesForWorkout(event.workoutId).first()
                     workoutExercises.forEach { we ->
                         repo.deleteWorkoutExercise(we)
                     }
 
-                    // Borrar el workout
                     repo.deleteWorkoutById(event.workoutId)
                 }
             }
@@ -227,25 +225,23 @@ class ExerciseViewModel @Inject constructor(
         }
 
 
+
+    // En ExerciseViewModel.kt - método openStats MEJORADO
     private fun openStats(exercise: Exercise) {
         viewModelScope.launch {
             val stats = withContext(Dispatchers.IO) {
-                val sessionExercises = repo.getAllSessionExercises().first()
-                    .filter { it.exercise.id == exercise.id }
-
-                sessionExercises.flatMap { se ->
-                    repo.getSetsForExercise(se.sessionExercise.sessionExerciseId).first()
-                }.map { set ->
-                    val sessionExercise = repo.getSessionExerciseById(set.parentSessionExerciseId)
-                    val sessionStart =
-                        repo.getSessionById(sessionExercise.parentSessionId).start.toLocalDate()
-                    StatEntry(date = sessionStart, pesoMax = set.weight ?: 0f)
-                }.sortedBy { it.date }
+                repo.getExerciseStats(exercise.id).first().map { exerciseStats ->
+                    StatEntry(
+                        date = exerciseStats.date,
+                        pesoMax = exerciseStats.maxWeight,
+                        volumeTotal = exerciseStats.totalVolume,
+                        totalSets = exerciseStats.totalSets
+                    )
+                }
             }
-            _uiEvent.send(UiEvent.ShowStatsPopup(stats))
+            _uiEvent.send(UiEvent.ShowStatsPopup(stats, exercise.name)) // ← Con nombre
         }
     }
-
     private fun openGuide(exercise: Exercise) {
         sendUiEvent(UiEvent.ShowImagePopup(exercise.id))
     }

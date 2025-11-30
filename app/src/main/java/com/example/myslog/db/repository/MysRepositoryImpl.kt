@@ -104,4 +104,14 @@ class MysRepositoryImpl @Inject constructor(
     override suspend fun deleteWorkoutExercise(workoutExercise: WorkoutExercise) {
         dao.deleteWorkoutExercise(workoutExercise)
     }
+    // En MysRepositoryImpl.kt - AGREGAR:
+    override fun getExerciseStats(exerciseId: String): Flow<List<ExerciseStats>> =
+        dao.getExerciseStats(exerciseId)
+
+    override fun getExerciseHistory(exerciseId: String): Flow<List<ExerciseHistory>> =
+        dao.getExerciseHistory(exerciseId)
+
+    override fun closeDatabase() {
+        db.close()
+    }
 }

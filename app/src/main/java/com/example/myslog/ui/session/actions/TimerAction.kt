@@ -13,6 +13,8 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import com.example.myslog.R
 import com.example.myslog.ui.TimerState
 
 @Composable
@@ -34,7 +36,7 @@ fun TimerAction(
   IconButton(onClick = onClick) {
     Icon(
       imageVector = Icons.Outlined.Timer,
-      contentDescription = "Timer",
+      contentDescription = stringResource(R.string.timer),
       tint = if (!timerVisible && timerState.running) activeColor else LocalContentColor.current
     )
   }

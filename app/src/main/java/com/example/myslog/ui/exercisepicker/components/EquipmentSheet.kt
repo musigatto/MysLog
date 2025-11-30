@@ -1,6 +1,8 @@
 package com.example.myslog.ui.exercisepicker.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.myslog.R
 
 import com.example.myslog.ui.exercisepicker.ExerciseEvent
 import com.example.myslog.utils.Event
@@ -14,7 +16,7 @@ fun EquipmentSheet(
   Sheet(
     items = allEquipment.sorted(),
     selectedItems = selectedEquipment,
-    title = "Filter by Equipment",
+    title = stringResource(R.string.filter_by_equipment),
     onSelect = { onEvent(ExerciseEvent.SelectEquipment(it)) }
   ) {
     onEvent(ExerciseEvent.DeselectEquipment)

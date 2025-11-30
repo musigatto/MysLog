@@ -89,6 +89,10 @@ android {
         // Coil
         implementation(libs.coil.compose)
 
+        //markdown
+        implementation(libs.compose.markdown)
+        implementation(libs.sqlite.ktx)
+
     }
 }
 dependencies {

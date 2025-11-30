@@ -42,10 +42,8 @@ fun ExerciseCard(
     val targets = exercise.primaryMuscles
     val equipment = exercise.equipment
 
-    // Animación de elevación
     val tonalElevation by animateDpAsState(targetValue = if (selected) 2.dp else 0.dp)
 
-    // Animación de color
     val containerColor by animateColorAsState(
         if (selected) MaterialTheme.colorScheme.secondaryContainer
         else MaterialTheme.colorScheme.surfaceContainerLow
@@ -57,7 +55,6 @@ fun ExerciseCard(
             .padding(bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Indicador lateral
         Surface(
             color = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
             shape = MaterialTheme.shapes.small,
@@ -68,7 +65,6 @@ fun ExerciseCard(
 
         Spacer(modifier = Modifier.width(4.dp))
 
-        // Card principal
         Card(
             onClick = onClick,
             modifier = Modifier
@@ -121,7 +117,7 @@ fun ExerciseCard(
 fun ExerciseCardPreview() {
     val mockExercise = Exercise(
         id = "1",
-        name = "Pene al fallo",
+        name = "Press Banca",
         force = "TODO()",
         level = "TODO()",
         mechanic = "TODO()",

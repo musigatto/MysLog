@@ -144,7 +144,7 @@ class TimerService : Service() {
   )
 
   private fun buildFinishedNotification() = notification(
-    contentText = "Timer finished, tap to return.",
+    contentText = getString(R.string.timer_finished_tap_to_return),
     progressBar = false,
     channelId = ALERT_CHANNEL_ID
   )

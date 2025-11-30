@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -24,14 +25,14 @@ import com.example.compose.AppTheme
 import com.example.myslog.db.MysDAO
 import com.example.myslog.ui.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
+import androidx.core.content.edit
 
-//TODO: capitalizar json y traducir con googleSheets
-// Anotación para habilitar la inyección de dependencias con Hilt en esta actividad
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -57,34 +58,39 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    ActivityCompat.requestPermissions(
-                        this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
-                    )
-                }
-
                 val context = LocalContext.current
                 val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-                // Flag si ya aceptó los términos
-                var showDialog by remember { mutableStateOf(!prefs.getBoolean("terms_accepted", false)) }
+                // Estados para el flujo
+                var showTermsDialog by remember {
+                    mutableStateOf(!prefs.getBoolean("terms_accepted", false))
+                }
+                var showNameDialog by remember {
+                    mutableStateOf(
+                        prefs.getBoolean("terms_accepted", false) &&
+                                !prefs.getBoolean("name_dialog_shown", false)
+                    )
+                }
 
-                // Texto plano cargado desde assets
-                var termsText by remember { mutableStateOf("Cargando términos...") }
+                // Leer Markdown desde res/raw/terms.md
+                var terms by remember { mutableStateOf("Loading...") }
 
                 LaunchedEffect(Unit) {
-                    termsText = withContext(Dispatchers.IO) {
-                        context.assets.open("terms.txt").bufferedReader().use { it.readText() }
+                    terms = withContext(Dispatchers.IO) {
+                        context.resources.openRawResource(R.raw.terms)
+                            .bufferedReader().use { it.readText() }
                     }
                 }
 
-                if (showDialog) {
+                // Flujo: Términos -> Nombre -> Home
+                if (showTermsDialog) {
                     AlertDialog(
-                        onDismissRequest = {
-                            // Forzamos que la app se cierre si intenta salir del diálogo
-                            finish()
-                        },
-                        title = { Text("Términos y condiciones") },
+                        onDismissRequest = {     prefs.edit {
+                            putString("user_name", "")
+                                .putBoolean("name_dialog_shown", true)
+                        }
+                            showNameDialog = false },
+                        title = { Text(stringResource(R.string.code_conduct)) },
                         text = {
                             Column(
                                 Modifier
@@ -92,29 +98,81 @@ class MainActivity : ComponentActivity() {
                                     .verticalScroll(rememberScrollState())
                                     .padding(8.dp)
                             ) {
-                                Text(text = termsText)
+                                MarkdownText(markdown = terms)
                             }
                         },
                         confirmButton = {
                             TextButton(onClick = {
-                                prefs.edit().putBoolean("terms_accepted", true).apply()
-                                showDialog = false
+                                prefs.edit { putBoolean("terms_accepted", true) }
+                                showTermsDialog = false
+                                showNameDialog = true
                             }) {
-                                Text("Aceptar")
+                                Text(stringResource(R.string.accept))
+                            }
+                        },
+//                        dismissButton = {
+//                            TextButton(onClick = { finish() }) {
+//                                Text(stringResource(R.string.cancel))
+//                            }
+//                        }
+                    )
+                } else if (showNameDialog) {
+                    var name by remember { mutableStateOf("") }
+
+                    AlertDialog(
+                        onDismissRequest = {
+                            prefs.edit { putString("user_name", "") }
+                            showNameDialog = false
+                        },
+                        title = { stringResource(R.string.welcome_2) },
+                        text = {
+                            Column {
+                                Text(stringResource(R.string.ask_name))
+                                OutlinedTextField(
+                                    value = name,
+                                    onValueChange = { name = it },
+                                    label = { Text(stringResource(R.string.name_placeholder)) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    singleLine = true
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    prefs.edit {
+                                        putString("user_name", name)
+                                            .putBoolean("name_dialog_shown", true)
+                                    }
+                                    showNameDialog = false
+                                }
+                            ) {
+                                Text(stringResource(R.string.continue_))
                             }
                         },
                         dismissButton = {
-                            TextButton(onClick = {
-                                finish() // Cierra la app si no acepta
-                            }) {
-                                Text("Cerrar")
+                            TextButton(
+                                onClick = {
+                                    prefs.edit {
+                                        putString("user_name", "")
+                                            .putBoolean("name_dialog_shown", true)
+                                    }
+                                    showNameDialog = false
+                                }
+                            ) {
+                                Text(stringResource(R.string.skip))
                             }
                         }
                     )
                 } else {
                     val navController = rememberNavController()
+                    val userName = prefs.getString("user_name", "") ?: ""
+
                     Surface {
-                        AppNavHost(navController = navController)
+                        AppNavHost(
+                            navController = navController,
+                            userName = userName
+                        )
                     }
                 }
             }

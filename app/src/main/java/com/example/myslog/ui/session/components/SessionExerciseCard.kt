@@ -46,7 +46,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.db.entities.GymSet
 import com.example.myslog.ui.ExerciseWrapper
 import com.example.myslog.ui.session.SessionEvent
@@ -161,7 +163,7 @@ fun SessionExerciseCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ChevronRight,
-                                contentDescription = "More sets in list.",
+                                contentDescription = stringResource(R.string.more_sets_in_list),
                                 modifier = Modifier.padding(end = 8.dp),
                                 tint = LocalContentColor.current.copy(alpha = 0.5f)
                             )

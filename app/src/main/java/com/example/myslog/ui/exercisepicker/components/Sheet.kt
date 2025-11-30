@@ -7,15 +7,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 
 @Composable
 fun Sheet(
@@ -27,9 +28,9 @@ fun Sheet(
 ) {
   Column(
     modifier = Modifier
-      .fillMaxWidth()
-      .padding(top = 16.dp, bottom = 20.dp)
-      .padding(horizontal = 16.dp),
+        .fillMaxWidth()
+        .padding(top = 16.dp, bottom = 20.dp)
+        .padding(horizontal = 16.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Text(
@@ -37,11 +38,12 @@ fun Sheet(
       textAlign = TextAlign.Center,
       style = MaterialTheme.typography.titleLarge,
       modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 12.dp)
+          .fillMaxWidth()
+          .padding(bottom = 12.dp)
     )
     LazyVerticalGrid(
-      columns = GridCells.Adaptive(120.dp),
+        // tamaño de los small pills de la pestaña filtros
+      columns = GridCells.Adaptive(150.dp),
       horizontalArrangement = Arrangement.Center
     ) {
       items(items) { item ->
@@ -53,7 +55,7 @@ fun Sheet(
     }
     TextButton(onClick = { onDeselectAll() }) {
       Text(
-        text = "Deselect All".uppercase(),
+        text = stringResource(R.string.deselect_all),
         style = MaterialTheme.typography.labelLarge
       )
     }

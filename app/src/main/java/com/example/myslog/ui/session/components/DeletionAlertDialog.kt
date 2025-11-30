@@ -5,6 +5,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.myslog.R
 
 @Composable
 fun DeletionAlertDialog(
@@ -17,12 +19,12 @@ fun DeletionAlertDialog(
     onDismissRequest = onDismiss,
     confirmButton = {
       Button(onClick = onDelete) {
-        Text(text = "Delete")
+        Text(text = stringResource(R.string.delete))
       }
     },
     dismissButton = {
       TextButton(onClick = onDismiss) {
-        Text(text = "Cancel")
+          Text(text = stringResource(R.string.cancel))
       }
     },
     title = title,

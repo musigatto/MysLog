@@ -1,7 +1,8 @@
 package com.example.myslog.ui.exercisepicker.components
 
 import androidx.compose.runtime.Composable
-
+import androidx.compose.ui.res.stringResource
+import com.example.myslog.R
 import com.example.myslog.ui.exercisepicker.ExerciseEvent
 import com.example.myslog.utils.Event
 
@@ -14,7 +15,7 @@ fun MuscleSheet(
   Sheet(
     items = allMuscleGroups.sorted(),
     selectedItems = selectedMusclegroups,
-    title = "Filter by Body-part",
+    title = stringResource(R.string.filter_by_body_part),
     onSelect = { onEvent(ExerciseEvent.SelectMuscle(it)) }
   ) {
     onEvent(ExerciseEvent.DeselectMuscles)

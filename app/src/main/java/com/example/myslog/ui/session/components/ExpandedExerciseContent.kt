@@ -28,11 +28,13 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.core.TipoSet
 import com.example.myslog.db.entities.GymSet
 import com.example.myslog.ui.session.SessionEvent
@@ -72,7 +74,7 @@ fun ExpandedExerciseContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Delete Set",
+                            contentDescription = stringResource(R.string.delete_set),
                             tint = LocalContentColor.current.copy(alpha = 0.75f)
                         )
                     }
@@ -150,12 +152,12 @@ fun ExpandedExerciseContent(
                     }
                 }
             ) {
-                Text("Copiar último set")
+                Text(stringResource(R.string.copy_last_set))
             }
             IconButton(
                 onClick = { onSetCreated() }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add new set")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.add_new_set))
             }
         }
     }

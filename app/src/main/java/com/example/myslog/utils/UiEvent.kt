@@ -9,15 +9,16 @@ sealed class UiEvent {
     data class FileCreated(val fileName: String) : UiEvent()
 
     data class ShowImagePopup(val exerciseId: String) : UiEvent()
-    data class ShowStatsPopup(val stats: List<StatEntry>) : UiEvent()
-
-
+    data class ShowStatsPopup(
+        val stats: List<StatEntry>,
+        val exerciseName: String
+    ) : UiEvent()
     object ToggleTimer: UiEvent()
     object ResetTimer: UiEvent()
     object IncrementTimer: UiEvent()
     object DecrementTimer : UiEvent()
     data class ShowFinishResult(val result: FinishResult) : UiEvent()
-    data class ShowSnackbar(val message: String) : UiEvent() // 👈 Nuevo evento
+    data class ShowSnackbar(val message: String) : UiEvent()
 
 
 }

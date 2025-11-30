@@ -5,9 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,36 +14,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.AccessibilityNew
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,10 +41,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.db.entities.Exercise
 import com.example.myslog.db.entities.Workout
 import com.example.myslog.ui.exercisepicker.ExerciseEvent
@@ -80,7 +69,8 @@ fun ExercisePickerPreview(
     onFilterSelectedClick: () -> Unit,
     onFilterUsedClick: () -> Unit,
     onMuscleFilterClick: () -> Unit,
-    onEquipmentFilterClick: () -> Unit
+    onEquipmentFilterClick: () -> Unit,
+    onTutorialClick: () -> Unit = {}
 ) {
     FilterChipDefaults.filterChipColors(
         selectedContainerColor = MaterialTheme.colorScheme.primary,
@@ -95,21 +85,39 @@ fun ExercisePickerPreview(
 
     Scaffold(
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = selectedExercises.isNotEmpty(),
-                enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut()
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // FAB del tutorial (PRIMERO - se mostrará ARRIBA)
                 FloatingActionButton(
-                    onClick = onAddClick,
-                    containerColor = MaterialTheme.colorScheme.primary
+                    onClick = onTutorialClick,
+                    modifier = Modifier.size(48.dp),
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                 ) {
-                    Text(
-                        "ADD ${selectedExercises.size}",
-                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 10.dp),
-                        style = MaterialTheme.typography.labelLarge,
-                        textAlign = TextAlign.Center
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Help,
+                        contentDescription = stringResource(R.string.show_tutorial)
                     )
+                }
+
+                // FAB para añadir ejercicios (SEGUNDO - se mostrará ABAJO)
+                AnimatedVisibility(
+                    visible = selectedExercises.isNotEmpty(),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
+                ) {
+                    FloatingActionButton(
+                        onClick = onAddClick,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ) {
+                        Text(
+                            stringResource(R.string.add_num, selectedExercises.size),
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 10.dp),
+                            style = MaterialTheme.typography.labelLarge,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
@@ -117,7 +125,7 @@ fun ExercisePickerPreview(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // 👈 asegura que respete status bar y FAB
+                .padding(paddingValues)
         ) {
             // 🔹 Barra superior fija
             ExercisePickerTopBar(
@@ -140,7 +148,6 @@ fun ExercisePickerPreview(
                 onNewWorkoutNameChange = { newWorkoutName = it }
             )
 
-            // 🔹 Lista debajo de la barra
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -182,8 +189,10 @@ private fun ExercisePickerTopBar(
         OutlinedTextField(
             value = searchText,
             onValueChange = onSearchChanged,
-            label = { Text("Search", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            label = { Text(stringResource(R.string.search), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             singleLine = true
         )
 
@@ -213,14 +222,21 @@ private fun FilterRow(
     onWorkoutToggle: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(end = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        FilterChip(selected = filterSelected, onClick = onFilterSelectedClick, label = { Text("Selected") })
-        FilterChip(selected = filterUsed, onClick = onFilterUsedClick, label = { Text("Used") })
+        FilterChip(selected = filterSelected, onClick = onFilterSelectedClick, label = { Text(
+            stringResource(R.string.selected)
+        ) })
+        FilterChip(selected = filterUsed, onClick = onFilterUsedClick, label = { Text(
+            stringResource(
+                R.string.used
+            )) })
         FilterChip(selected = muscleFilterActive, onClick = onMuscleFilterClick, label = { Icon(Icons.Default.AccessibilityNew, null) })
         FilterChip(selected = equipmentFilterActive, onClick = onEquipmentFilterClick, label = { Icon(Icons.Default.FitnessCenter, null) })
-        FilterChip(selected = workoutFilterActive, onClick = onWorkoutToggle, label = { Icon(Icons.AutoMirrored.Filled.DirectionsRun, null) })
+        FilterChip(selected = workoutFilterActive, onClick = onWorkoutToggle, label = { Icon(Icons.Filled.BookmarkAdd, null) })
     }
 }
 
@@ -240,20 +256,24 @@ private fun WorkoutDropdown(
         OutlinedTextField(
             value = newWorkoutName,
             onValueChange = onNewWorkoutNameChange,
-            label = { Text("Nuevo Workout") },
+            label = { Text(stringResource(R.string.new_workout)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         Button(onClick = { if (newWorkoutName.isNotBlank()) onEvent(ExerciseEvent.AddWorkout(newWorkoutName)) }) {
-            Text("Añadir")
+            Text(stringResource(R.string.add_workout))
         }
         Spacer(Modifier.height(8.dp))
         allWorkouts.forEach { workout ->
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp)) {
                 RadioButton(selected = workout.workoutId == selectedWorkoutId, onClick = { onEvent(ExerciseEvent.SelectWorkout(workout.workoutId)) })
-                Text(workout.name, modifier = Modifier.weight(1f).padding(start = 8.dp))
+                Text(workout.name, modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp))
                 IconButton(onClick = { onEvent(ExerciseEvent.DeleteWorkout(workout.workoutId)) }) {
-                    Icon(Icons.Default.Delete, contentDescription = "Borrar Workout")
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_workout))
                 }
             }
         }

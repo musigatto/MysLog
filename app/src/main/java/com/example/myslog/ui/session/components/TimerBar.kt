@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myslog.R
 import com.example.myslog.ui.TimerState
 import com.example.myslog.ui.session.SessionEvent
 import com.example.myslog.utils.Event
@@ -72,7 +74,7 @@ fun TimerBar(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { onEvent(SessionEvent.TimerDecreased) }) {
-                            Icon(Icons.Default.Remove, "Decrease time")
+                            Icon(Icons.Default.Remove, stringResource(R.string.decrease_time))
                         }
                         Text(
                             text = timerTimeText,
@@ -80,15 +82,15 @@ fun TimerBar(
                             modifier = Modifier.width(50.dp)
                         )
                         IconButton(onClick = { onEvent(SessionEvent.TimerIncreased) }) {
-                            Icon(Icons.Default.Add, "Increase time")
+                            Icon(Icons.Default.Add, stringResource(R.string.increase_time))
                         }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { onEvent(SessionEvent.TimerReset) }) {
-                            Icon(Icons.Default.Refresh, "Reset Timer")
+                            Icon(Icons.Default.Refresh, stringResource(R.string.reset_timer))
                         }
                         IconButton(onClick = { onEvent(SessionEvent.TimerToggled) }) {
-                            Icon(timerToggleIcon, "Toggle Timer")
+                            Icon(timerToggleIcon, stringResource(R.string.toggle_timer))
                         }
                     }
                 }
