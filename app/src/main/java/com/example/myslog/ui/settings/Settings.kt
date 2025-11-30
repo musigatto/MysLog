@@ -300,7 +300,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Default.Download,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.export_database),
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
@@ -316,7 +316,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Default.Upload,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.import_database),
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
@@ -343,7 +343,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Default.Warning,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.delete_alldb),
                             tint = MaterialTheme.colorScheme.onErrorContainer
                         )
                         Spacer(Modifier.width(8.dp))
@@ -372,7 +372,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             Icons.Default.Delete,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.delete_alldb),
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))

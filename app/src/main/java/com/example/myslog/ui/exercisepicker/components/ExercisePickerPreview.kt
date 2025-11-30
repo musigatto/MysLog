@@ -17,9 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.Button
@@ -97,7 +97,7 @@ fun ExercisePickerPreview(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.Help,
-                        contentDescription = "Mostrar tutorial"
+                        contentDescription = stringResource(R.string.show_tutorial)
                     )
                 }
 
@@ -236,7 +236,7 @@ private fun FilterRow(
             )) })
         FilterChip(selected = muscleFilterActive, onClick = onMuscleFilterClick, label = { Icon(Icons.Default.AccessibilityNew, null) })
         FilterChip(selected = equipmentFilterActive, onClick = onEquipmentFilterClick, label = { Icon(Icons.Default.FitnessCenter, null) })
-        FilterChip(selected = workoutFilterActive, onClick = onWorkoutToggle, label = { Icon(Icons.AutoMirrored.Filled.DirectionsRun, null) })
+        FilterChip(selected = workoutFilterActive, onClick = onWorkoutToggle, label = { Icon(Icons.Filled.BookmarkAdd, null) })
     }
 }
 

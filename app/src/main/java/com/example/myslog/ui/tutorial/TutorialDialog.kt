@@ -1,4 +1,3 @@
-// TutorialDialog.kt
 package com.example.myslog.ui.tutorial
 
 import androidx.compose.foundation.layout.Arrangement
@@ -102,13 +101,13 @@ private fun SessionTutorialContent(currentStep: Int) {
     when (currentStep) {
         1 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Pantalla de Sesión",
+                text = stringResource(R.string.tutorial_session_screen),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Aquí puedes registrar todos los ejercicios de tu sesión de entrenamiento.",
+                text = stringResource(R.string.tutorial_sess_2),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -117,13 +116,13 @@ private fun SessionTutorialContent(currentStep: Int) {
         // Cambia el orden y contenido:
         2 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Temporizador",
+                text = stringResource(R.string.tutorial_timer),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Usa el botón ⏱️ para activar el temporizador de descanso entre series.",
+                text = stringResource(R.string.tutorial_timer2),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -132,13 +131,13 @@ private fun SessionTutorialContent(currentStep: Int) {
 
         3 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Registrar Series",
+                text = stringResource(R.string.tutorial_sets),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Toca un ejercicio para expandirlo y registrar series, peso y repeticiones.",
+                text = stringResource(R.string.tutorial_sets2),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -147,13 +146,13 @@ private fun SessionTutorialContent(currentStep: Int) {
 
         4 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Gestión de Sesión",
+                text = stringResource(R.string.tutorial_session2),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Usa el botón \"Finalizar\" para finalizar o 🗑️ para borrar la sesión y volver al inicio.",
+                text = stringResource(R.string.tutorial_sess3),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -167,13 +166,13 @@ private fun ExercisePickerTutorialContent(currentStep: Int) {
     when (currentStep) {
         1 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Selector de Ejercicios",
+                text = stringResource(R.string.tutorial_expick),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Aquí puedes buscar y seleccionar ejercicios para agregar a tu sesión.",
+                text = stringResource(R.string.tutorial_expick2),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -181,13 +180,13 @@ private fun ExercisePickerTutorialContent(currentStep: Int) {
         }
         2 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Filtros Avanzados",
+                text = stringResource(R.string.tutorial_expick3),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Usa 🏋️ por equipo, 💪 por grupo muscular y 📚 para ejercicios usados anteriormente.",
+                text = stringResource(R.string.tutorial_expick4),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -195,13 +194,13 @@ private fun ExercisePickerTutorialContent(currentStep: Int) {
         }
         3 -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Workouts Personalizados",
+                text = stringResource(R.string.tutorial_expick5),
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "Crea 📋 workouts personalizados seleccionando ejercicios y guardándolos como rutina.",
+                text = stringResource(R.string.tutorial_expick6),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -214,13 +213,13 @@ private fun ExercisePickerTutorialContent(currentStep: Int) {
 private fun TutorialStep1() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "¡Bienvenido a MySlog!",
+            text = stringResource(R.string.tutorial_1),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "MySlog te ayuda a registrar y seguir tus sesiones de entrenamiento de forma sencilla.",
+            text = stringResource(R.string.tutorial_1_2),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -232,13 +231,13 @@ private fun TutorialStep1() {
 private fun TutorialStep2() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Crear Sesiones",
+            text = stringResource(R.string.tutorial_1_3),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "Usa el botón '+' para crear nuevas sesiones de entrenamiento y registrar tus ejercicios.",
+            text = stringResource(R.string.tutorial_1_4),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -250,13 +249,13 @@ private fun TutorialStep2() {
 private fun TutorialStep3() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Gestionar Sesiones",
+            text = stringResource(R.string.tutorial_1_5),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "Toca una sesión para ver detalles o mantén presionada para eliminarla.",
+            text = stringResource(R.string.tutorial_1_6),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant

@@ -120,7 +120,7 @@ fun HomeScreen(
                     Icon(
                         // Usa un ícono temporal - puedes cambiar después
                         imageVector = Icons.AutoMirrored.Filled.Help,
-                        contentDescription = "Mostrar tutorial"
+                        contentDescription = stringResource(R.string.show_tutorial)
                     )
                 }
             }

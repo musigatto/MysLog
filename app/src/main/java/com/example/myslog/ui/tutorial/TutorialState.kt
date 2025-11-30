@@ -1,4 +1,3 @@
-// TutorialState.kt
 package com.example.myslog.ui.tutorial
 
 data class TutorialState(

@@ -28,7 +28,9 @@ fun StatsPopup(
     onDismiss: () -> Unit
 ) {
     var selectedMetric by remember { mutableStateOf(0) }
-    val metrics = listOf("Peso Máximo (kg)", "Volumen Total (kg)")
+    val metrics = listOf(stringResource(R.string.max_weight),
+        stringResource(R.string.total_volumen)
+    )
     val formatter = DateTimeFormatter.ofPattern("dd/MM")
     val lineColor = MaterialTheme.colorScheme.primary
     val axisColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -168,21 +170,21 @@ fun StatsPopup(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Mejor Peso", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.best_weight), style = MaterialTheme.typography.labelSmall)
                             Text(
                                 "${stats.maxOf { it.pesoMax }.toInt()}kg",
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Mejor Volumen", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.best_total_volumen), style = MaterialTheme.typography.labelSmall)
                             Text(
                                 "${stats.maxOf { it.volumeTotal }.toInt()}kg",
                                 style = MaterialTheme.typography.titleMedium
                             )
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("Sesiones", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.sessions), style = MaterialTheme.typography.labelSmall)
                             Text(
                                 "${stats.size}",
                                 style = MaterialTheme.typography.titleMedium

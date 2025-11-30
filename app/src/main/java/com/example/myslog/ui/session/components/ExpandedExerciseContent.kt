@@ -74,7 +74,7 @@ fun ExpandedExerciseContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Delete Set",
+                            contentDescription = stringResource(R.string.delete_set),
                             tint = LocalContentColor.current.copy(alpha = 0.75f)
                         )
                     }

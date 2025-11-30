@@ -115,5 +115,35 @@
     <string name="delete_db_subtitle">Borrar toda la base de datos</string>
     <string name="danger">Zona de peligro</string>
     <string name="welcome_2">¡Muy buenas!</string>
+    <string name="best_weight">Mejor Peso</string>
+    <string name="best_total_volumen">Mejor Volumen Total</string>
+    <string name="sessions">Sesiones</string>
+    <string name="tutorial_session_screen">Pantalla de Sesión</string>
+    <string name="tutorial_sess_2">Aquí puedes registrar todos los ejercicios de tu sesión de entrenamiento.</string>
+    <string name="tutorial_timer">Temporizador</string>
+    <string name="tutorial_timer2">Usa el botón ⏱️ para activar el temporizador de descanso entre series.</string>
+    <string name="tutorial_sets">Registrar Series</string>
+    <string name="tutorial_sets2">Toca un ejercicio para expandirlo y registrar series, peso y repeticiones.</string>
+    <string name="tutorial_sess3">Usa el botón \"Finalizar\" para finalizar o 🗑️ para borrar la sesión y volver al inicio.</string>
+    <string name="tutorial_expick">Selector de Ejercicios</string>
+    <string name="tutorial_expick2">Aquí puedes buscar y seleccionar ejercicios para agregar a tu sesión.</string>
+    <string name="tutorial_expick3">Filtros Avanzados</string>
+    <string name="tutorial_expick4">Usa \"seleccionados\", para reducir la lista a tus ejercicios marcados, \"usados\", para ver aquellos en los que hayas registrado algo anteriormente,🏋️para filtrar por equipo, 🔩 por grupo muscular y 🔖 para crear un entrenamiento personalizado con los ejercicios seleccionados</string>
+    <string name="tutorial_expick5">Workouts Personalizados</string>
+    <string name="tutorial_expick6">Con 🔖, crea workouts personalizados seleccionando ejercicios y guardándolos como rutina.</string>
+    <string name="tutorial_1">¡Bienvenido a MysLog!</string>
+    <string name="tutorial_1_2">MySlog te ayuda a registrar y seguir tus sesiones de entrenamiento de forma sencilla.</string>
+    <string name="tutorial_1_3">Crear Sesiones</string>
+    <string name="tutorial_1_4">Usa el botón \'+\' para crear nuevas sesiones de entrenamiento y registrar tus ejercicios.</string>
+    <string name="tutorial_1_5">Gestionar Sesiones</string>
+    <string name="tutorial_1_6">Toca una sesión para ver detalles o mantén presionada para eliminarla.</string>
+    <string name="max_weight">Peso Máximo (kg)</string>
+    <string name="total_volumen">Volumen Total (kg)</string>
+    <string name="show_tutorial">Mostrar tutorial</string>
+    <string name="next">Siguiente</string>
+    <string name="timer_finished_tap_to_return">Temporizador finalizado, toca aquí para volver a la aplicación.</string>
+    <string name="tutorial_session2">Gestión de Sesión</string>
+    <string name="delete_set">Borrar serie</string>
+    <string name="more_sets_in_list">Más series en lista</string>
 
 </resources>

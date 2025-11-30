@@ -100,7 +100,7 @@
     <string name="edit_name">Edit name</string>
     <string name="change_username">Change your username:</string>
     <string name="your_name">Your name</string>
-    <string name="delete_alldb">Delete all database</string>
+    <string name="delete_alldb">Delete database</string>
     <string name="delete_db_really">Are you sure? This action cannot be undone and all workouts will be lost.</string>
     <string name="prefs_app">App preferences</string>
     <string name="profile">Profile</string>
@@ -118,6 +118,35 @@
     <string name="danger">Danger Zone</string>
     <string name="welcome_2">Welcome!</string>
     <string name="next">Next</string>
+    <string name="timer_finished_tap_to_return">Timer finished, tap to return.</string>
+    <string name="tutorial_session2">Session management</string>
+    <string name="delete_set">Delete Set</string>
+    <string name="more_sets_in_list">More sets in list.</string>
+    <string name="best_weight">Best weight</string>
+    <string name="best_total_volumen">Best volume</string>
+    <string name="sessions">Sessions</string>
+    <string name="tutorial_session_screen">Session Screen</string>
+    <string name="tutorial_sess_2">Here you can register all of your exercises in a training session</string>
+    <string name="tutorial_timer">Timer</string>
+    <string name="tutorial_timer2">Use the ⏱️ button to activate a timer to measure your rest times between sets.</string>
+    <string name="tutorial_sets">Register Sets</string>
+    <string name="tutorial_sets2">Touch an exercise to expand it and register sets, weight and reps.</string>
+    <string name="tutorial_sess3">Use button \"Finish\" to finish or press 🗑️ button to delete the session and return to Home Screen.</string>
+    <string name="tutorial_expick">Exercise Picker</string>
+    <string name="tutorial_expick2">Here you can search, select, and add exercises for your session</string>
+    <string name="tutorial_expick3">Advanced Filters</string>
+    <string name="tutorial_expick4">Use \"selected\" to narrow the list to your marked exercises, \"used\" to see those in which you have previously logged something, 🏋️ to filter by equipment, 🔩 by muscle group, and 🔖 to create a custom workout with the selected exercises.</string>
+    <string name="tutorial_expick5">Custom Workout</string>
+    <string name="tutorial_expick6">Create a custom workout using 🔖 button. Select a few and then save as a routine under a chosen name.</string>
+    <string name="tutorial_1">Welcome to MysLog!</string>
+    <string name="tutorial_1_2">MysLog helps you tracking your workouts</string>
+    <string name="tutorial_1_3">Create sessions</string>
+    <string name="tutorial_1_4">Use \'+\' button to create a new session and log your exercises</string>
+    <string name="tutorial_1_5">Manage Sessions</string>
+    <string name="tutorial_1_6">Touch a session to see its details or hold to delete.</string>
+    <string name="max_weight">Max Weight (kg)</string>
+    <string name="total_volumen">Total Volume (kg)</string>
+    <string name="show_tutorial">Show tutorial</string>
 </resources>
 
 
