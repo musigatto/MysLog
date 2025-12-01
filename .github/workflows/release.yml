@@ -42,7 +42,7 @@ jobs:
 
       # --- 6. Sign APK ---
       - name: Sign APK
-        uses: r0adkll/sign-android-release@v3
+        uses: r0adkll/sign-android-release@v2
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
@@ -56,10 +56,19 @@ jobs:
           mv app/build/outputs/apk/release/app-release-unsigned-signed.apk \
              MysLog-v1.0.${{ github.run_number }}.apk
 
-# --- 8. Upload artifact ---
+      # --- 8. Upload artifact ---
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: MysLog-release-apk
           path: MysLog-v1.0.${{ github.run_number }}.apk
 
+      # --- 9. Create GitHub Release ---
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: "MysLog v1.0.${{ github.run_number }}"
+          files: MysLog-v1.0.${{ github.run_number }}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
