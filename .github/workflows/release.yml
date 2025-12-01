@@ -20,43 +20,22 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 36
-          build-tools: 36.0.0
-
-      - name: Make Gradle executable
-        run: chmod +x gradlew
-
-      - name: Build Release APK
-        run: ./gradlew :app:assembleRelease
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@f30bdd30588842ac76044ecdbd4b6d0e3e813478
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Rename APK
+      - name: Install Android SDK & Build Tools
         run: |
-          mv app/build/outputs/apk/release/app-release-unsigned-signed.apk \
-             MysLog-v1.0.${{ github.run_number }}.apk
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: MysLog-release-apk
-          path: MysLog-v1.0.${{ github.run_number }}.apk
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: "MysLog v1.0.${{ github.run_number }}"
-          files: MysLog-v1.0.${{ github.run_number }}.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Crear carpeta SDK
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          cd $HOME/android-sdk/cmdline-tools
+          
+          # Descargar command line tools
+          curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip commandlinetools.zip
+          mkdir -p latest
+          mv cmdline-tools/* latest/
+          
+          # Configurar variables de entorno
+          echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/build-tools/36.0.0" >> $GITHUB_PATH
+          
+          # Instalar plataformas y build-tools
+          yes | $HOME/android-sdk/cmdline-tools/latest/b
