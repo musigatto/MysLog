@@ -11,29 +11,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # --- 1. Obtener código ---
+      # --- 1. Checkout code ---
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # --- 2. Configurar JDK ---
+      # --- 2. Set up JDK ---
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # --- 3. Configurar Gradle ---
+      # --- 3. Set up Gradle ---
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
 
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      # --- 4. Compilar APK release ---
+      # --- 4. Install Android SDK & Build Tools ---
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 36
+          build-tools: 36.0.0
+
+      # --- 5. Build release APK ---
       - name: Build Release APK (unsigned)
         run: ./gradlew :app:assembleRelease
 
-      # --- 5. Firmar APK ---
+      # --- 6. Sign APK ---
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         with:
@@ -43,20 +50,20 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      # --- 6. Renombrar APK ---
+      # --- 7. Rename APK ---
       - name: Rename signed APK
         run: |
           mv app/build/outputs/apk/release/app-release-unsigned-signed.apk \
              MysLog-v1.0.${{ github.run_number }}.apk
 
-      # --- 7. Subir artifact ---
+      # --- 8. Upload artifact ---
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: MysLog-release-apk
           path: MysLog-v1.0.${{ github.run_number }}.apk
 
-      # --- 8. Crear GitHub Release ---
+      # --- 9. Create GitHub Release ---
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
