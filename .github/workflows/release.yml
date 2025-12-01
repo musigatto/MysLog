@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build & Release APK
 
 on:
   push:
@@ -11,43 +11,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --- 1. Obtener código ---
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # --- 2. Configurar JDK ---
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 24.0.1
+          java-version: 17
+
+      # --- 3. Configurar Gradle ---
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      - name: Generate Keystore
-        run: |
-          keytool -genkey -v -keystore myslog.jks -keyalg RSA -keysize 2048 -validity 10000 -alias myslog -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -dname "CN=, OU=, O=, L=, S=, C="
-
-      - name: Build Release APK
+      # --- 4. Compilar APK release ---
+      - name: Build Release APK (unsigned)
         run: ./gradlew :app:assembleRelease
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Rename APK
+      # --- 5. Firmar APK ---
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      # --- 6. Renombrar APK ---
+      - name: Rename signed APK
         run: |
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/MysLog-v1.0.${{ github.run_number }}.apk
+          mv app/build/outputs/apk/release/app-release-unsigned-signed.apk \
+             MysLog-v1.0.${{ github.run_number }}.apk
 
-      - name: Upload APK artifact
+      # --- 7. Subir artifact ---
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: MysLog-release-apk
-          path: app/build/outputs/apk/release/MysLog-v1.0.${{ github.run_number }}.apk
+          path: MysLog-v1.0.${{ github.run_number }}.apk
 
+      # --- 8. Crear GitHub Release ---
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
-          name: "Release v1.0.${{ github.run_number }}"
-          files: app/build/outputs/apk/release/MysLog-v1.0.${{ github.run_number }}.apk
+          name: "MysLog v1.0.${{ github.run_number }}"
+          files: MysLog-v1.0.${{ github.run_number }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
