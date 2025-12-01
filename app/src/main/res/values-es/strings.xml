@@ -144,6 +144,6 @@
     <string name="timer_finished_tap_to_return">Temporizador finalizado, toca aquí para volver a la aplicación.</string>
     <string name="tutorial_session2">Gestión de Sesión</string>
     <string name="delete_set">Borrar serie</string>
-    <string name="more_sets_in_list">Más series en lista</string>
+    <string name="more_sets_in_list">Más series en lista.</string>
 
 </resources>
