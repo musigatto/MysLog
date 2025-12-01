@@ -56,5 +56,10 @@ jobs:
           mv app/build/outputs/apk/release/app-release-unsigned-signed.apk \
              MysLog-v1.0.${{ github.run_number }}.apk
 
-      # --- 8. Upload artifact ---
+# --- 8. Upload artifact ---
       - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MysLog-release-apk
+          path: MysLog-v1.0.${{ github.run_number }}.apk
+
