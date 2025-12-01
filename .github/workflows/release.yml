@@ -84,4 +84,4 @@ jobs:
           name: "MysLog v1.0.${{ github.run_number }}"
           files: MysLog-v1.0.${{ github.run_number }}.apk
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
