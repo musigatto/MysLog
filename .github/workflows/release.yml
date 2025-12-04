@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build & Release APK
 
 on:
   push:
@@ -14,29 +14,74 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 24.0.1
+          java-version: 17
+
+      - name: Install Android SDK & Build Tools
+        run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/36.0.0:$PATH
+
+          mkdir -p $ANDROID_HOME/cmdline-tools
+          cd $ANDROID_HOME/cmdline-tools
+          
+          curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip commandlinetools.zip
+          mkdir -p latest
+          mv cmdline-tools/* latest/
+
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
+
+          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/build-tools/36.0.0" >> $GITHUB_PATH
 
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease
 
-      - name: Upload APK artifact
+      - name: Align APK
+        run: |
+          APK="app/build/outputs/apk/release/app-release-unsigned.apk"
+          ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
+          $ANDROID_HOME/build-tools/36.0.0/zipalign -v -p 4 "$APK" "$ALIGNED"
+
+      - name: Sign APK
+        run: |
+          ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
+          SIGNED="app/build/outputs/apk/release/app-release-signed.apk"
+          echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > mykeystore.jks
+          $ANDROID_HOME/build-tools/36.0.0/apksigner sign \
+            --ks mykeystore.jks \
+            --ks-key-alias "${{ secrets.ALIAS }}" \
+            --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
+            --key-pass pass:"${{ secrets.KEY_PASSWORD }}" \
+            --out "$SIGNED" "$ALIGNED"
+
+      - name: Rename APK
+        run: mv app/build/outputs/apk/release/app-release-signed.apk MysLog-v1.0.${{ github.run_number }}.apk
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: MysLog-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: MysLog-release-apk
+          path: MysLog-v1.0.${{ github.run_number }}.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.0.${{ github.run_number }}
-          name: "Build v1.0.${{ github.run_number }}"
-          files: app/build/outputs/apk/debug/app-debug.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          name: "MysLog v1.0.${{ github.run_number }}"
+          files: MysLog-v1.0.${{ github.run_number }}.apk
+          token: ${{ secrets.GH_PAT }}
+
