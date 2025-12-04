@@ -1,5 +1,10 @@
 package com.example.myslog.ui.session
-
+import dev.jeziellago.compose.markdowntext.MarkdownText
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -206,21 +211,16 @@ fun SessionScreen(
             onDismissRequest = { finishResult.value = null },
             title = { Text(stringResource(R.string.finished_sess)) },
             text = {
-                Column {
-                    finishResult.value!!.exerciseSummaries.forEach { summary ->
-                        Text(
-                            stringResource(
-                                R.string.this_week,
-                                summary.exerciseName,
-                                summary.totalSets,
-                                summary.hardSets,
-                                summary.weeklyHardSets
-                            ))
-                    }
-                    Spacer(Modifier.height(8.dp))
-                    Divider()
-                    Spacer(Modifier.height(8.dp))
-                    Text(stringResource(R.string.total_sets, finishResult.value!!.sessionHardSets))
+                Column(
+                    Modifier
+                        .fillMaxHeight(0.6f) // Usar 60% de la altura
+                        .verticalScroll(rememberScrollState())
+                        .padding(8.dp)
+                ) {
+                    // Usar MarkdownText con el contenido generado
+                    MarkdownText(
+                        markdown = finishResult.value!!.markdownSummary,
+                    )
                 }
             },
             confirmButton = {
@@ -232,5 +232,4 @@ fun SessionScreen(
                 }
             }
         )
-    }
-}
+    }}

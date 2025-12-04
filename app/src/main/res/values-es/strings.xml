@@ -37,7 +37,7 @@
     <string name="muscle_shoulders">Hombros</string>
 
     <!-- tipo set -->
-    <string name="tipo_warmup">Calentamiento</string>
+    <string name="tipo_warmup">Calent</string>
     <string name="tipo_easy">Fácil</string>
     <string name="tipo_normal">Normal</string>
     <string name="tipo_hard">Difícil</string>
@@ -72,7 +72,7 @@
     <string name="this_week">%1$s: %2$d series, %3$d al fallo (📅 %4$d esta semana)</string>
     <string name="workout_timer_alerts">Alertas Myslog</string>
     <string name="keep_screen">Mantener pantalla «Sesión» encendida</string>
-    <string name="code_conduct">Código de conducta</string>
+    <string name="code_conduct">Introducción</string>
     <string name="export_database">Exportar base de datos</string>
     <string name="import_database">Importar base de datos</string>
     <string name="delete_database">Borrar base de datos</string>
@@ -145,5 +145,7 @@
     <string name="tutorial_session2">Gestión de Sesión</string>
     <string name="delete_set">Borrar serie</string>
     <string name="more_sets_in_list">Más series en lista.</string>
+    <string name="table_template">| %1$s | %2$d | %3$d | %4$d |</string>
+    <string name="table_row_template">| %1$s | %2$d | %3$d | %4$d |</string>
 
 </resources>

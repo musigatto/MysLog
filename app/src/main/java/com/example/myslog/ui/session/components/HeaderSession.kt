@@ -194,7 +194,7 @@ fun PreviewHeaderSession() {
             HeaderSession(
                 sessionWrapper = sessionWrapper,
                 muscleGroups = muscleGroups,
-                scrollState = scrollState, // Pasa el mismo scrollState
+                scrollState = scrollState,
                 topPadding = 16.dp,
                 onEndTime = {},
                 onStartTime = {},

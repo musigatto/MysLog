@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- English Templates -->
+    <string name="total_hard_sets"><![CDATA[🔥 **Total sets close to failure:** %1$d]]></string>
+    <string name="exercises_done"><![CDATA[### Exercises performed:]]></string>
+    <string name="exercise_summary_item"><![CDATA[**%1$s**\n  - Total sets: %2$d\n  - Sets close to failure: %3$d\n  - This week: %4$d]]></string>
+    <string name="summary_table"><![CDATA[### Summary table:]]></string>
+    <string name="table_header"><![CDATA[| Exercise | Total Sets | Hard Sets | This Week |\n|----------|------------|-----------|-----------|]]></string>
+    <string name="table_row"><![CDATA[| %1$s | %2$d | %3$d | %4$d |]]></string>
+    <string name="no_exercises"><![CDATA[_No exercises recorded in this session._]]></string>
+    <string name="good_job"><![CDATA[Great work! 🎉]]></string>
+
+</resources>

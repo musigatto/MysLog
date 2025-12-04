@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Plantillas en Español -->
+    <string name="total_hard_sets"><![CDATA[🔥 **Total de sets cercanos al fallo:** %1$d]]></string>
+    <string name="exercises_done"><![CDATA[### Ejercicios realizados:]]></string>
+    <string name="exercise_summary_item"><![CDATA[**%1$s**\n  - Total sets: %2$d\n  - Sets cercanos al fallo: %3$d\n  - Esta semana: %4$d]]></string>
+    <string name="summary_table"><![CDATA[### Tabla resumen:]]></string>
+    <string name="table_header"><![CDATA[| Ejercicio | Total Sets | Sets Duros | Esta Semana |\n|-----------|------------|------------|-------------|]]></string>
+    <string name="table_row"><![CDATA[| %1$s | %2$d | %3$d | %4$d |]]></string>
+    <string name="no_exercises"><![CDATA[_No hay ejercicios registrados en esta sesión._]]></string>
+    <string name="good_job"><![CDATA[¡Buen trabajo! 🎉]]></string>
+</resources>
