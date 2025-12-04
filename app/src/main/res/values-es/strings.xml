@@ -145,7 +145,5 @@
     <string name="tutorial_session2">Gestión de Sesión</string>
     <string name="delete_set">Borrar serie</string>
     <string name="more_sets_in_list">Más series en lista.</string>
-    <string name="table_template">| %1$s | %2$d | %3$d | %4$d |</string>
-    <string name="table_row_template">| %1$s | %2$d | %3$d | %4$d |</string>
 
 </resources>

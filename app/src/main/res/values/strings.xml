@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">MysLog</string>
 
-    // equipment
+    <!-- equipment -->
     <string name="equipment_atlas_stone">Atlas Stone</string>
     <string name="equipment_barbell">Barbell</string>
     <string name="equipment_bodyweight">Bodyweight</string>
@@ -21,7 +21,7 @@
     <string name="equipment_suspension">Suspension</string>
     <string name="equipment_weight">Weight</string>
 
-    //musclegroups
+    <!-- muscle groups -->
     <string name="muscle_core">Core</string>
     <string name="muscle_hips">Hips</string>
     <string name="muscle_calves">Calves</string>
@@ -36,7 +36,7 @@
     <string name="muscle_chest">Chest</string>
     <string name="muscle_shoulders">Shoulders</string>
 
-    //tiposet
+    <!-- tipo set -->
     <string name="tipo_warmup">Warmup</string>
     <string name="tipo_easy">Easy</string>
     <string name="tipo_normal">Normal</string>
