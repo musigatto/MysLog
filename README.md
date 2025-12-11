@@ -11,13 +11,14 @@
 ## ✨ Features
 
 - **📱 Modern UI** – Built with Jetpack Compose & Material Design 3 for a clean, dynamic interface.
-- **🏋️ Comprehensive Exercise Database** – Access over 870 exercises with filters by muscle, equipment, and custom routines.
+- **🏋️ Comprehensive Exercise Database** – Access over 870 exercises with filters by muscle, equipment, and custom routines. 
 - **📊 Full Workout Tracking** – Log exercises, sets, weight, and repetitions with detailed session management.
 - **📈 Progress Visualization** – View charts and statistics for each exercise to track your improvements.
 - **🔒 100% Offline & Private** – All data is stored locally on your device. No accounts, no ads, no subscriptions.
 - **⏱️ Built-in Rest Timer** – Customizable timer with notifications to manage your rest periods.
 - **🌍 Bilingual Support** – Interface available in English and Spanish (exercise database currently in English).
-
+>[!Note]
+>The exercise database is based on the Free Exercise DB project by yuhonas: https://github.com/yuhonas/free-exercise-db/tree/main
 ---
 
 ## 🚀 Getting Started
