@@ -1,6 +1,3 @@
-import java.util.Properties
-import java.io.FileInputStream
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -25,36 +22,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
-    /* ---------- SIGNING (CI / LOCAL ONLY) ---------- */
-    val signingPropsPath = project.findProperty("signingProps") as String?
-
-    if (signingPropsPath != null) {
-        val propsFile = file(signingPropsPath)
-        if (propsFile.exists()) {
-            val props = Properties().apply {
-                load(FileInputStream(propsFile))
-            }
-
-            signingConfigs {
-                create("release") {
-                    storeFile = file(props["storeFile"] as String)
-                    storePassword = props["storePassword"] as String
-                    keyAlias = props["keyAlias"] as String
-                    keyPassword = props["keyPassword"] as String
-                }
-            }
-
-            buildTypes {
-                getByName("release") {
-                    signingConfig = signingConfigs.getByName("release")
-                }
-            }
-        }
-    }
-    /* ---------- END SIGNING ---------- */
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
