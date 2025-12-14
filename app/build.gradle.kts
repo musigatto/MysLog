@@ -25,18 +25,33 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
-    // Cargar propiedades del keystore
-    val propsFile = rootProject.file("signing/signing.properties")
-    val keyFile = rootProject.file("signing/myslog.jks")
-    val props = Properties().apply { load(FileInputStream(propsFile)) }
-    signingConfigs {
-        create("release") {
-            storeFile = keyFile
-            storePassword = props["storePassword"] as String
-            keyAlias = props["keyAlias"] as String
-            keyPassword = props["keyPassword"] as String
+    /* ---------- SIGNING (CI / LOCAL ONLY) ---------- */
+    val signingPropsPath = project.findProperty("signingProps") as String?
+
+    if (signingPropsPath != null) {
+        val propsFile = file(signingPropsPath)
+        if (propsFile.exists()) {
+            val props = Properties().apply {
+                load(FileInputStream(propsFile))
+            }
+
+            signingConfigs {
+                create("release") {
+                    storeFile = file(props["storeFile"] as String)
+                    storePassword = props["storePassword"] as String
+                    keyAlias = props["keyAlias"] as String
+                    keyPassword = props["keyPassword"] as String
+                }
+            }
+
+            buildTypes {
+                getByName("release") {
+                    signingConfig = signingConfigs.getByName("release")
+                }
+            }
         }
     }
+    /* ---------- END SIGNING ---------- */
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
