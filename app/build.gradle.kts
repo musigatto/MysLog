@@ -19,8 +19,8 @@ android {
         applicationId = "com.example.myslog"
         minSdk = 27
         targetSdk = 36
-        versionCode = 1043
-        versionName = "1.0.43"
+        versionCode = 1051
+        versionName = "1.0.51"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
