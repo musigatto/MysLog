@@ -19,8 +19,8 @@ android {
         applicationId = "com.example.myslog"
         minSdk = 27
         targetSdk = 36
-        versionName = "1.0.${System.getenv("GITHUB_RUN_NUMBER") ?: "0"}"
-        versionCode = (System.getenv("GITHUB_RUN_NUMBER") ?: "0").toInt() + 100 // un offset seguro
+        versionCode = 1043
+        versionName = "1.0.43"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
