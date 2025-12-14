@@ -47,8 +47,15 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
+      - name: Generate signing.properties
+        run: |
+          mkdir -p signing
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" > signing/signing.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> signing/signing.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> signing/signing.properties
+
       - name: Build Release APK
-        run: ./gradlew :app:assembleRelease --stacktrace
+        run: ./gradlew :app:assembleRelease --stacktrace -PsigningProps=signing/signing.properties
 
       - name: Align APK
         run: |
@@ -60,9 +67,8 @@ jobs:
         run: |
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           SIGNED="app/build/outputs/apk/release/app-release-signed.apk"
-          echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > mykeystore.jks
           $ANDROID_HOME/build-tools/36.0.0/apksigner sign \
-            --ks mykeystore.jks \
+            --ks signing/signing.properties \
             --ks-key-alias "${{ secrets.ALIAS }}" \
             --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
             --key-pass pass:"${{ secrets.KEY_PASSWORD }}" \
@@ -84,4 +90,3 @@ jobs:
           name: "MysLog v1.0.${{ github.run_number }}"
           files: MysLog-v1.0.${{ github.run_number }}.apk
           token: ${{ secrets.GH_PAT }}
-
