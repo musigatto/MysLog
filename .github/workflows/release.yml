@@ -65,7 +65,7 @@ jobs:
 
       - name: Align APK
         run: |
-          APK="app/build/outputs/apk/release/app-release-unsigned.apk"
+          APK="app/build/outputs/apk/release/app-release.apk"
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           $ANDROID_HOME/build-tools/36.0.0/zipalign -v -p 4 "$APK" "$ALIGNED"
 
