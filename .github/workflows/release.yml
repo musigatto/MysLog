@@ -47,6 +47,12 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
+      # === Restaurar keystore seguro ===
+      - name: Restore Keystore
+        run: |
+          mkdir -p signing
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > signing/myslog.jks
+
       - name: Generate signing.properties
         run: |
           mkdir -p signing
@@ -68,7 +74,7 @@ jobs:
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           SIGNED="app/build/outputs/apk/release/app-release-signed.apk"
           $ANDROID_HOME/build-tools/36.0.0/apksigner sign \
-            --ks signing/signing.properties \
+            --ks signing/myslog.jks \
             --ks-key-alias "${{ secrets.ALIAS }}" \
             --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
             --key-pass pass:"${{ secrets.KEY_PASSWORD }}" \
@@ -90,3 +96,8 @@ jobs:
           name: "MysLog v1.0.${{ github.run_number }}"
           files: MysLog-v1.0.${{ github.run_number }}.apk
           token: ${{ secrets.GH_PAT }}
+
+      # === Limpieza de keystore ===
+      - name: Clean up keystore
+        if: always()
+        run: rm -f signing/myslog.jks signing/signing.properties
