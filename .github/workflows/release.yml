@@ -28,7 +28,7 @@ jobs:
 
           mkdir -p $ANDROID_HOME/cmdline-tools
           cd $ANDROID_HOME/cmdline-tools
-          
+
           curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           unzip commandlinetools.zip
           mkdir -p latest
@@ -47,33 +47,27 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      # === Restaurar keystore seguro ===
+      # 🔹 Restaurar keystore SOLO para apksigner
       - name: Restore Keystore
         run: |
           mkdir -p signing
           echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > signing/myslog.jks
 
-      - name: Generate signing.properties
-        run: |
-          mkdir -p signing
-          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" > signing/signing.properties
-          echo "keyAlias=${{ secrets.ALIAS }}" >> signing/signing.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> signing/signing.properties
-
-      - name: Build Release APK
-        run: ./gradlew :app:assembleRelease --stacktrace -PsigningProps=signing/signing.properties
+      # 🔹 Build UNSIGNED (Gradle limpio para F-Droid)
+      - name: Build Release APK (unsigned)
+        run: ./gradlew :app:assembleRelease --stacktrace
 
       - name: Align APK
         run: |
           APK="app/build/outputs/apk/release/app-release.apk"
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
-          $ANDROID_HOME/build-tools/36.0.0/zipalign -v -p 4 "$APK" "$ALIGNED"
+          zipalign -v -p 4 "$APK" "$ALIGNED"
 
       - name: Sign APK
         run: |
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           SIGNED="app/build/outputs/apk/release/app-release-signed.apk"
-          $ANDROID_HOME/build-tools/36.0.0/apksigner sign \
+          apksigner sign \
             --ks signing/myslog.jks \
             --ks-key-alias "${{ secrets.ALIAS }}" \
             --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
@@ -97,7 +91,6 @@ jobs:
           files: MysLog-v1.0.${{ github.run_number }}.apk
           token: ${{ secrets.GH_PAT }}
 
-      # === Limpieza de keystore ===
       - name: Clean up keystore
         if: always()
-        run: rm -f signing/myslog.jks signing/signing.properties
+        run: rm -rf signing
