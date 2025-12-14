@@ -1,0 +1,1 @@
+Metadata and preparations for fdroid release.

@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,21 +19,35 @@ android {
         applicationId = "com.example.myslog"
         minSdk = 27
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.${System.getenv("GITHUB_RUN_NUMBER") ?: "0"}"
+        versionCode = (System.getenv("GITHUB_RUN_NUMBER") ?: "0").toInt() + 100 // un offset seguro
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
-
+    // Cargar propiedades del keystore
+    val propsFile = rootProject.file("signing/signing.properties")
+    val keyFile = rootProject.file("signing/myslog.jks")
+    val props = Properties().apply { load(FileInputStream(propsFile)) }
+    signingConfigs {
+        create("release") {
+            storeFile = keyFile
+            storePassword = props["storePassword"] as String
+            keyAlias = props["keyAlias"] as String
+            keyPassword = props["keyPassword"] as String
+        }
+    }
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
