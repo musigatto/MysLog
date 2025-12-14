@@ -47,12 +47,25 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
+      # === Restaurar keystore seguro ===
+      - name: Restore Keystore
+        run: |
+          mkdir -p signing
+          echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > signing/myslog.jks
+
+      - name: Generate signing.properties
+        run: |
+          mkdir -p signing
+          echo "storePassword=${{ secrets.KEY_STORE_PASSWORD }}" > signing/signing.properties
+          echo "keyAlias=${{ secrets.ALIAS }}" >> signing/signing.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> signing/signing.properties
+
       - name: Build Release APK
-        run: ./gradlew :app:assembleRelease
+        run: ./gradlew :app:assembleRelease --stacktrace -PsigningProps=signing/signing.properties
 
       - name: Align APK
         run: |
-          APK="app/build/outputs/apk/release/app-release-unsigned.apk"
+          APK="app/build/outputs/apk/release/app-release.apk"
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           $ANDROID_HOME/build-tools/36.0.0/zipalign -v -p 4 "$APK" "$ALIGNED"
 
@@ -60,9 +73,8 @@ jobs:
         run: |
           ALIGNED="app/build/outputs/apk/release/app-release-aligned.apk"
           SIGNED="app/build/outputs/apk/release/app-release-signed.apk"
-          echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > mykeystore.jks
           $ANDROID_HOME/build-tools/36.0.0/apksigner sign \
-            --ks mykeystore.jks \
+            --ks signing/myslog.jks \
             --ks-key-alias "${{ secrets.ALIAS }}" \
             --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
             --key-pass pass:"${{ secrets.KEY_PASSWORD }}" \
@@ -85,3 +97,7 @@ jobs:
           files: MysLog-v1.0.${{ github.run_number }}.apk
           token: ${{ secrets.GH_PAT }}
 
+      # === Limpieza de keystore ===
+      - name: Clean up keystore
+        if: always()
+        run: rm -f signing/myslog.jks signing/signing.properties
