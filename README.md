@@ -1,4 +1,6 @@
-# MysLog — Your Personal Gym Log
+<img width="199" height="199" alt="image" src="https://github.com/user-attachments/assets/03d28c9a-8c4e-4ae1-a4b5-db76794d3ae1" />
+
+# MysLog — Your Personal Gym Log 
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
@@ -20,6 +22,14 @@
 >[!Note]
 >The exercise database is based on the Free Exercise DB project by yuhonas: https://github.com/yuhonas/free-exercise-db/tree/main
 ---
+<img width="318" height="709" alt="image" src="https://github.com/user-attachments/assets/27ec1462-82f3-47a0-ba11-a75c73d30839" />
+<img width="318" height="709" alt="image" src="https://github.com/user-attachments/assets/782cdab8-81f8-4325-9b7f-2e95068ad162" />
+<img width="318" height="709" alt="image" src="https://github.com/user-attachments/assets/63b4f99f-d761-4bd6-acac-76e636f4661a" />
+<img width="318" height="709" alt="image" src="https://github.com/user-attachments/assets/44f87059-5e14-4173-92d4-1f9fef9bb4aa" />
+<img width="289" height="650" alt="image" src="https://github.com/user-attachments/assets/0d160bbc-c902-4579-ab13-a94e1ed3c7e9" />
+<img width="372" height="827" alt="image" src="https://github.com/user-attachments/assets/5f38831d-f80c-41d6-9383-fa44dafd6af4" />
+
+
 
 ## 🚀 Getting Started
 
